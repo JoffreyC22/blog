@@ -2,12 +2,13 @@
 
 require_once('Database.php');
 
-class Post{
+class Comment{
 
   private $id;
-  private $title;
+  private $author;
   private $content;
   private $created_at;
+  private $post_id;
 
   public function __construct($valeurs = array())
   {
@@ -31,7 +32,7 @@ class Post{
     return $this->id;
   }
 
-  public function title(){
+  public function author(){
     return $this->title;
   }
 
@@ -43,11 +44,15 @@ class Post{
     return $this->created_at;
   }
 
+  public function post_id(){
+    return $this->post_id;
+  }
+
   public function setId($id){
     $this->id = $id;
   }
 
-  public function setTitle($title){
+  public function setTitle($author){
     $this->title = $title;
   }
 
@@ -59,23 +64,17 @@ class Post{
     $this->created_at = $created_at;
   }
 
+  public function setPost_id($post_id){
+    $this->post_id = $post_id;
+  }
+
   public static function all(){
 
     $db = Database::connect();
-    $request = $db->query('SELECT * FROM posts ORDER by id DESC');
+    $request = $db->query('SELECT * FROM comments ORDER by id DESC');
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $posts[] = new Post($data);
+      $comments[] = new Comment($data);
     }
-    return $posts;
-  }
-
-  public static function whereId($post_id){
-
-    $db = Database::connect();
-    $request = $db->query('SELECT * FROM posts WHERE id ='.$post_id);
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $post = new Post($data);
-    }
-    return $post;
+    return $comments;
   }
 }

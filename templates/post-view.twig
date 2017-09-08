@@ -1,0 +1,25 @@
+{% extends "layout.twig" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-preview">
+              <h2 class="post-title text-center">{{ post.title }}</h2>
+              <p>
+                {{ post.content }}
+              </p>
+            <p class="post-meta">Posted by
+              <a href="#">Joffrey</a>
+              on {{ post.created_at }}</p>
+        </div>
+        <hr>
+      <!-- Pager -->
+      <div class="clearfix">
+        <a class="btn btn-secondary float-right" href="/">Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
