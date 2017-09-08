@@ -11,7 +11,9 @@
               </p>
               <div class="flex-container">
                 <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.created_at }}</p>
-                <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ comments|length }}) commentaire(s)</a></p>
+                {% if comments|length > 0 %}
+                  <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ comments|length }}) commentaire(s)</a></p>
+                {% endif %}
               </div>
               <hr>
               <div class="comment-section" style="display:none;">
