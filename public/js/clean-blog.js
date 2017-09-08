@@ -38,4 +38,13 @@
       });
   }
 
+  $('.show-comments').click(function(e){
+    e.preventDefault();
+    if ($('.comment-section').hasClass('visible')) {
+      $('.comment-section').removeClass('visible');
+    } else {
+      $('.comment-section').addClass('visible');
+    }
+  });
+
 })(jQuery); // End of use strict

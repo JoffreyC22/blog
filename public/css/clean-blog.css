@@ -74,6 +74,13 @@ img::-moz-selection {
 body {
   -webkit-tap-highlight-color: #0085A1; }
 
+.flex-container {
+  display: flex;
+  justify-content: space-between; }
+
+.visible {
+  display: block !important; }
+
 #mainNav {
   position: absolute;
   border-bottom: 1px solid #eeeeee;
@@ -230,6 +237,13 @@ header.masthead {
     .post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
       text-decoration: underline;
       color: #0085A1; }
+
+.post-preview .comment-section {
+  background: #eee;
+  padding: 5px 20px;
+  border-radius: 4px; }
+  .post-preview .comment-section p {
+    margin: 4px; }
 
 @media only screen and (min-width: 768px) {
   .post-preview > a > .post-title {

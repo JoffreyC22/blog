@@ -1,6 +1,7 @@
 <?php
 
 require_once('Database.php');
+require_once('Comment.php');
 
 class Post{
 
@@ -77,5 +78,15 @@ class Post{
       $post = new Post($data);
     }
     return $post;
+  }
+
+  public function comments(){
+
+    $db = Database::connect();
+    $request = $db->query('SELECT * FROM comments WHERE post_id ='.$this->id);
+    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
+      $comments[] = new Comment($data);
+    }
+    return $comments;
   }
 }

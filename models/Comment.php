@@ -33,7 +33,7 @@ class Comment{
   }
 
   public function author(){
-    return $this->title;
+    return $this->author;
   }
 
   public function content(){
@@ -52,8 +52,8 @@ class Comment{
     $this->id = $id;
   }
 
-  public function setTitle($author){
-    $this->title = $title;
+  public function setAuthor($author){
+    $this->author = $author;
   }
 
   public function setContent($content){

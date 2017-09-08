@@ -23,7 +23,7 @@ gulp.task('sass', function() {
     .pipe(header(banner, {
       pkg: pkg
     }))
-    .pipe(gulp.dest('css'))
+    .pipe(gulp.dest('public/css'))
     .pipe(browserSync.reload({
       stream: true
     }))
@@ -31,14 +31,14 @@ gulp.task('sass', function() {
 
 // Minify compiled CSS
 gulp.task('minify-css', ['sass'], function() {
-  return gulp.src('css/clean-blog.css')
+  return gulp.src('public/css/clean-blog.css')
     .pipe(cleanCSS({
       compatibility: 'ie8'
     }))
     .pipe(rename({
       suffix: '.min'
     }))
-    .pipe(gulp.dest('css'))
+    .pipe(gulp.dest('public/css'))
     .pipe(browserSync.reload({
       stream: true
     }))
@@ -46,7 +46,7 @@ gulp.task('minify-css', ['sass'], function() {
 
 // Minify custom JS
 gulp.task('minify-js', function() {
-  return gulp.src('js/clean-blog.js')
+  return gulp.src('public/js/clean-blog.js')
     .pipe(uglify())
     .pipe(header(banner, {
       pkg: pkg
@@ -54,7 +54,7 @@ gulp.task('minify-js', function() {
     .pipe(rename({
       suffix: '.min'
     }))
-    .pipe(gulp.dest('js'))
+    .pipe(gulp.dest('public/js'))
     .pipe(browserSync.reload({
       stream: true
     }))
@@ -95,17 +95,16 @@ gulp.task('default', ['sass', 'minify-css', 'minify-js', 'copy']);
 gulp.task('browserSync', function() {
   browserSync.init({
     server: {
-      baseDir: ''
+      baseDir: './',
+      index: 'index.php'
     },
   })
 })
 
 // Dev task with browserSync
-gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'minify-js'], function() {
+gulp.task('dev', ['sass', 'minify-css', 'minify-js'], function() {
   gulp.watch('scss/*.scss', ['sass']);
   gulp.watch('css/*.css', ['minify-css']);
   gulp.watch('js/*.js', ['minify-js']);
   // Reloads the browser whenever HTML or JS files change
-  gulp.watch('*.html', browserSync.reload);
-  gulp.watch('js/**/*.js', browserSync.reload);
 });
