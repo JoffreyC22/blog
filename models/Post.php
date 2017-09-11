@@ -89,4 +89,18 @@ class Post{
     }
     return $comments;
   }
+
+  public function save($title, $content){
+
+    $db = Database::connect()->prepare('INSERT INTO  posts (title,content ) VALUES (:codeArticle,:libelleArticle,:image,:prix,:unite,:TVA,:idFamille)');
+    /*$pdo->bindValue(':codeArticle',$articles->getCodeArticle());
+    $pdo->bindValue(':libelleArticle',$articles->getLibelleArticle());
+    $pdo->bindValue(':image',$articles->getImage());
+    $pdo->bindValue(':prix',$articles->getPrix());
+    $pdo->bindValue(':unite',$articles->getUnite());
+    $pdo->bindValue(':TVA',$articles->getTVA());
+    $pdo->bindValue(':idFamille',$articles->getIdFamille());
+    $pdo->execute();
+    $articles->setIdArticle(Database::getInstance()->lastInsertId());*/
+  }
 }
