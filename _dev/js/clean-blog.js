@@ -40,10 +40,13 @@
 
   $('.show-comments').click(function(e){
     e.preventDefault();
-    if ($('.comment-section').hasClass('visible')) {
-      $('.comment-section').removeClass('visible');
+    var parent = $(this).closest('.post-details');
+    var hr = parent.next('hr');
+    var comment_section = hr.next('.comment-section');
+    if (comment_section.hasClass('visible')) {
+      comment_section.removeClass('visible');
     } else {
-      $('.comment-section').addClass('visible');
+      comment_section.addClass('visible');
     }
   });
 

@@ -21,4 +21,14 @@ class Database extends PDO {
         }
         return self::$instance;
     }
+
+    public static function executeQuery($sql, $params = null){
+      if ($params == null) {
+          $resultat = self::connect()->query($sql);
+      } else {
+          $resultat = self::connect()->prepare($sql);
+          $resultat->execute($params);
+      }
+      return $resultat;
+    }
 }
