@@ -87,6 +87,7 @@ gulp.task('default', ['scripts', 'sass', 'browser-sync'], function () {
     gulp.watch(['scss/*.scss', 'scss/**/*.scss'], ['sass'])
     /* Watch app.js file, run the scripts task on change. */
     gulp.watch(['js/*.js'], ['scripts'])
+    gulp.watch(['../templates/*.twig'], ['bs-reload']);
 });
 
 gulp.task('build', ['sass', 'scripts'], function () {
