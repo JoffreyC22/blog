@@ -4,20 +4,20 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <form action=>
+      <form action="post-add.php?action=save" method="post">
         <div class="form-group">
           <label for="title">Titre</label>
-          <input type="text" class="form-control" id="title" required>
+          <input type="text" name="title" class="form-control" id="title" required>
         </div>
         <div class="form-group">
           <label for="content">Contenu</label>
           <textarea class="form-control" name="content" id="content" rows="8" cols="80" required></textarea>
         </div>
-        <button type="submit" class="btn btn-default">Enregistrer</button>
+        <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
       </form>
       <!-- Pager -->
       <div class="clearfix">
-        <a class="btn btn-secondary float-right" href="/">Retour à l'accueil</a>
+        <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
       </div>
     </div>
   </div>
