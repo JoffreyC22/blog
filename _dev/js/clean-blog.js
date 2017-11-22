@@ -50,4 +50,33 @@
     }
   });
 
+  $('#add-post').click(function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+    var form_data = form.serialize()
+    var custom_url = form.attr('action');
+    $.ajax({
+        type: 'POST',
+        data: form_data,
+        url: custom_url,
+        success: function(data){
+          if (data == 'not_complete') {
+            popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
+          } else {
+            popMessage('.alert-success', 'Post enregistré avec succès.');
+          }
+        },
+        error: function(xhr){
+
+        }
+    });
+  });
+
 })(jQuery); // End of use strict
+
+function popMessage(typeError, string){
+  $(typeError).append('<p>'+string+'</p>');
+  $(typeError).fadeIn(function(){
+   $(this).delay(5000).fadeOut();
+  });
+}
