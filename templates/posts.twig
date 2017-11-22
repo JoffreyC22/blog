@@ -12,6 +12,7 @@
             </p>
             <div class="flex-container post-details">
               <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.created_at }}</p>
+              <p><a href="/post-edit.php?id={{ post.id }}">Editer</a></p>
               {% if post.comments|length > 0 %}
                 <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ post.comments|length }}) commentaire(s)</a></p>
               {% endif %}

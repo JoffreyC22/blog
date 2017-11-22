@@ -4,6 +4,9 @@ require_once('./vendor/autoload.php');
 require_once('./models/Post.php');
 require_once('./twigloading.php');
 
+$post_id = $_GET['id'];
+$post = Post::whereId($post_id);
+
 if (!empty($_POST)){
   $title = $_POST['title'];
   $content = $_POST['content'];
@@ -14,10 +17,9 @@ if (!empty($_POST)){
     if($action){
         switch($action){
             case 'save' :
-            $post = new Post();
             $post->setTitle($_POST['title']);
             $post->setContent($_POST['content']);
-            $post->save($post);
+            $post->update($post);
             $message = 'done';
         }
     };
@@ -25,6 +27,8 @@ if (!empty($_POST)){
   echo $message;
 } else {
   $template = $twig->loadTemplate('post-create-edit.twig');
-  echo $template->render([]);
+  echo $template->render([
+    'post' => $post
+  ]);
 }
 ?>
