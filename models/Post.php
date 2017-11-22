@@ -87,7 +87,11 @@ class Post{
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
       $comments[] = new Comment($data);
     }
-    return $comments;
+    if (!empty($comments)) {
+      return $comments;
+    } else {
+      return null;
+    }
   }
 
   public static function save(Post $post){
