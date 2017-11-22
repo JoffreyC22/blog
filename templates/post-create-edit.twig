@@ -4,18 +4,19 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <form action="post-add.php?action=save" method="post">
-        <div class="alert alert-success" style="display:none;">
-        </div>
-        <div class="alert alert-danger" style="display:none;">
-        </div>
+      {% if not post %}
+        <form action="post-add.php?action=save" method="post">
+      {% else %}
+        <form action="post-edit.php?id={{ post.id }}&action=save" method="post">
+      {% endif %}
+      {{ block('alert') }}
         <div class="form-group">
           <label for="title">Titre</label>
-          <input type="text" name="title" class="form-control" id="title" required>
+          <input type="text" name="title" class="form-control" id="title" value="{{ post.title }}" required>
         </div>
         <div class="form-group">
           <label for="content">Contenu</label>
-          <textarea class="form-control" name="content" id="content" rows="8" cols="80" required></textarea>
+          <textarea class="form-control" name="content" id="content" rows="8" cols="80" required>{{ post.content }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary float-right" id="add-post">Enregistrer</button>
       </form>

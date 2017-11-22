@@ -94,10 +94,17 @@ class Post{
     }
   }
 
-  public static function save(Post $post){
+  public function save(Post $post){
 
     $sql = 'INSERT INTO posts (title,content,created_at) VALUES (?, ?, ?)';
     $date = date('Y-m-d H:i:s');
     $db = Database::executeQuery($sql, array($post->title, $post->content, $date));
+  }
+
+  public function update(Post $post){
+
+    $post_id = $post->id;
+    $sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
+    $db = Database::executeQuery($sql, array($post->title, $post->content, $post_id));
   }
 }
