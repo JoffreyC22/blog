@@ -60,6 +60,7 @@ class Post{
   public static function all(){
 
     $db = Database::connect();
+    $posts = null;
     $request = $db->query('SELECT * FROM posts ORDER by id DESC');
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
       $posts[] = new Post($data);
@@ -81,15 +82,12 @@ class Post{
   public function comments(){
 
     $db = Database::connect();
+    $comments = null;
     $request = $db->query('SELECT * FROM comments WHERE post_id ='.$this->id);
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
       $comments[] = new Comment($data);
     }
-    if (!empty($comments)) {
-      return $comments;
-    } else {
-      return null;
-    }
+    return $comments;
   }
 
   public function save(Post $post){
