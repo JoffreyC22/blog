@@ -8,7 +8,7 @@
           <!-- Posts -->
           {% for post in posts %}
             <div class="post-preview">
-                <a href="/post.php?id={{ post.id }}">
+                <a href="/index.php?action=renderPost&id={{ post.id }}">
                   <h2 class="post-title">{{ post.title }}</h2>
                   <h3 class="post-subtitle">
                     {{ post.content }}
@@ -22,7 +22,7 @@
           {% endfor %}
           <!-- Pager -->
           <div class="clearfix">
-            <a class="btn btn-secondary float-right" href="/posts.php">Voir tous les posts &rarr;</a>
+            <a class="btn btn-secondary float-right" href="/index.php?action=renderPosts">Voir tous les posts &rarr;</a>
           </div>
         </div>
       </div>

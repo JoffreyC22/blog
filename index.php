@@ -1,12 +1,7 @@
 <?php
-require_once('./vendor/autoload.php');
-require_once('./models/Post.php');
-require_once('./twigloading.php');
+require_once('./config.php');
 
-$posts = Post::all();
+$routeur = new Routeur();
+$routeur->init();
 
-$template = $twig->loadTemplate('index.twig');
-echo $template->render(array(
-  'posts' => $posts
-));
 ?>
