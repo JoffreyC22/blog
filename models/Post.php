@@ -94,13 +94,20 @@ class Post{
 
     $sql = 'INSERT INTO posts (title,content,created_at) VALUES (?, ?, ?)';
     $date = date('Y-m-d H:i:s');
-    $db = Database::executeQuery($sql, array($post->title, $post->content, $date));
+    $db = Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date));
   }
 
   public function update(Post $post){
 
-    $post_id = $post->id;
+    $post_id = $post->getId();
     $sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
-    $db = Database::executeQuery($sql, array($post->title, $post->content, $post_id));
+    $db = Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $post_id));
+  }
+
+  public function delete(Post $post){
+
+    $post_id = $post->getId();
+    $sql = 'DELETE FROM posts WHERE id=?';
+    $db = Database::executeQuery($sql, array($post_id));
   }
 }

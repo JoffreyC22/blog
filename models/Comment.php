@@ -69,6 +69,7 @@ class Comment{
   public static function all(){
 
     $db = Database::connect();
+    $comments = null;
     $request = $db->query('SELECT * FROM comments ORDER by id DESC');
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
       $comments[] = new Comment($data);

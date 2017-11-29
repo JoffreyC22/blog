@@ -39,7 +39,13 @@ class Blog{ /** Controlleur du blog **/
     ));
   }
 
-  public function addPost(){ /** Ajouter un post **/
+
+  public function addPostView(){ /** Vue pour ajouter un post **/
+    $template = $this->twig->loadTemplate('post-create-edit.twig');
+    echo $template->render([]);
+  }
+
+  public function addPost(){ /** Action pour ajouter un post **/
     if (!empty($_POST)){
       $title = $_POST['title'];
       $content = $_POST['content'];
@@ -53,13 +59,20 @@ class Blog{ /** Controlleur du blog **/
         $message = 'done';
       }
       return $message;
-    } else {
-      $template = $this->twig->loadTemplate('post-create-edit.twig');
-      echo $template->render([]);
     }
   }
 
-  public function editPost(){ /** Editer un post **/
+  public function editPostView(){ /** Vue pour éditer un post **/
+    $post_id = $_GET['id'];
+    $post = Post::whereId($post_id);
+
+    $template = $this->twig->loadTemplate('post-create-edit.twig');
+    echo $template->render([
+      'post' => $post
+    ]);
+  }
+
+  public function editPost(){ /** Action éditer un post **/
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id);
 
@@ -75,12 +88,14 @@ class Blog{ /** Controlleur du blog **/
         $message = 'done';
       }
       return $message;
-    } else {
-      $template = $this->twig->loadTemplate('post-create-edit.twig');
-      echo $template->render([
-        'post' => $post
-      ]);
     }
+  }
+
+  public function deletePost(){ /** Supprimer un post **/
+    $post_id = $_GET['id'];
+    $post = Post::whereId($post_id);
+    $post->delete($post);
+    Redirect::action('renderPosts');
   }
 
   public function renderError($error){ /** Vue erreur **/

@@ -8,7 +8,7 @@ class Routeur{ /** Controlleur du routeur **/
 
     if (!empty($_GET['action'])) {
       $action = $_GET['action'];
-      if ($action == 'renderPost' || $action == 'editPost') {
+      if ($action == 'renderPost' || $action == 'editPost' || $action == 'editPostView') {
         $post_id = $_GET['id'];
         if (!(is_numeric($post_id)) || $post_id == '0') {
           $error = new ErrorMessage('danger', 'Le post doit être numérique.');
