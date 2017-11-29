@@ -25,19 +25,19 @@ class Post{
     }
   }
 
-  public function id(){
+  public function getId(){
     return $this->id;
   }
 
-  public function title(){
+  public function getTitle(){
     return $this->title;
   }
 
-  public function content(){
+  public function getContent(){
     return $this->content;
   }
 
-  public function created_at(){
+  public function getCreated_at(){
     return $this->created_at;
   }
 
@@ -70,6 +70,7 @@ class Post{
   public static function whereId($post_id){
 
     $db = Database::connect();
+    $post = null;
     $request = $db->query('SELECT * FROM posts WHERE id ='.$post_id);
     while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
       $post = new Post($data);

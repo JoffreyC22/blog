@@ -83,6 +83,16 @@ class Blog{ /** Controlleur du blog **/
     }
   }
 
+  public function renderError($error){ /** Vue erreur **/
+    $template = $this->twig->loadTemplate('error.twig');
+    echo $template->render([
+      'error' => array(
+        'type' => $error->getType(),
+        'message' => $error->getMessage()
+      )
+    ]);
+  }
+
 
 
 }

@@ -26,23 +26,23 @@ class Comment{
     }
   }
 
-  public function id(){
+  public function getId(){
     return $this->id;
   }
 
-  public function author(){
+  public function getAuthor(){
     return $this->author;
   }
 
-  public function content(){
+  public function getContent(){
     return $this->content;
   }
 
-  public function created_at(){
+  public function getCreated_at(){
     return $this->created_at;
   }
 
-  public function post_id(){
+  public function getPost_id(){
     return $this->post_id;
   }
 
