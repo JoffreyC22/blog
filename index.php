@@ -1,12 +1,12 @@
 <?php
-require_once('./vendor/autoload.php');
-require_once('./models/Post.php');
-require_once('./twigloading.php');
+require_once('./config.php');
 
-$posts = Post::all();
+$blog = new Blog();
 
-$template = $twig->loadTemplate('index.twig');
-echo $template->render(array(
-  'posts' => $posts
-));
+if (!empty($_GET['action'])) {
+  $action = $_GET['action'];
+  $blog->$action();
+} else {
+  $blog->renderHome();
+}
 ?>

@@ -1,7 +1,5 @@
 <?php
 
-require_once('./config.php');
-
 class Database extends PDO {
 
     private static $db = DB_NAME;
