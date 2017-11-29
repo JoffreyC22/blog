@@ -1,12 +1,7 @@
 <?php
 require_once('./config.php');
 
-$blog = new Blog();
+$routeur = new Routeur();
+$routeur->init();
 
-if (!empty($_GET['action'])) {
-  $action = $_GET['action'];
-  $blog->$action();
-} else {
-  $blog->renderHome();
-}
 ?>
