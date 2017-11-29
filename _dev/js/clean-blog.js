@@ -72,6 +72,24 @@
     });
   });
 
+  $('.deletePost').click(function(e){
+    e.preventDefault();
+    var custom_url = $(this).attr('href');
+    $.ajax({
+        url: custom_url,
+        success: function(data){
+          if (data == 'echec') {
+            popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
+          } else {
+            popMessage('.alert-success', 'Post supprimé avec succès.');
+            setTimeout("window.location='/index.php?action=renderPosts'", 2000);
+          }
+        },
+        error: function(xhr){
+        }
+    });
+  });
+
 })(jQuery); // End of use strict
 
 function popMessage(typeError, string){

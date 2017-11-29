@@ -94,8 +94,13 @@ class Blog{ /** Controlleur du blog **/
   public function deletePost(){ /** Supprimer un post **/
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id);
-    $post->delete($post);
-    Redirect::action('renderPosts');
+    $delete = $post->delete($post);
+    if (!$delete) {
+      $message = 'done';
+    } else {
+      $message = 'echec';
+    }
+    echo $message;
   }
 
   public function renderError($error){ /** Vue erreur **/
