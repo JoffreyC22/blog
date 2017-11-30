@@ -5,6 +5,8 @@ header.masthead {
   background: no-repeat center center;
   background-color: $gray-light;
   background-attachment: scroll;
+  filter: grayscale(40%);
+
   @include background-cover;
   .page-heading,
   .post-heading,
