@@ -13,15 +13,17 @@ class Routeur{ /** Controlleur du routeur **/
         $error = new ErrorMessage('danger', 'Cette action n\'existe pas.');
         $blog->renderError($error);
       } else {
-        if ($action == 'renderPost' || $action == 'editPost' || $action == 'editPostView' || $action == 'deletePost' || $action = 'commentPost' && !empty($_GET['id'])) {
-          $post_id = $_GET['id'];
-          if (!(is_numeric($post_id)) || $post_id == '0') {
-            $error = new ErrorMessage('danger', 'Le post doit être numérique.');
+        if ($action ==='renderPost' || $action === 'editPost' || $action === 'editPostView' || $action === 'deletePost' || $action === 'commentPost' || $action === 'deleteComment' && !empty($_GET['id'])) {
+          $id = $_GET['id'];
+          $arrAction = preg_split('/(?=[A-Z])/',$action);
+          $typeId = $arrAction[1];
+          if (!(is_numeric($id)) || $id == '0') {
+            $error = new ErrorMessage('danger', 'Le '.strtolower($typeId).' doit être numérique.');
             $blog->renderError($error);
           } else {
-            $post = Post::whereId($post_id);
-            if (!$post) {
-              $error = new ErrorMessage('danger', 'Ce post n\'existe pas.');
+            $entity = $typeId::whereId($id);
+            if (!$entity) {
+              $error = new ErrorMessage('danger', 'Ce '.strtolower($typeId).' n\'existe pas.');
               $blog->renderError($error);
             } else {
               $action = $_GET['action'];

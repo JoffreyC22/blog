@@ -104,7 +104,7 @@
             popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
           } else {
             popMessage('.alert-success', 'Post supprimé avec succès.');
-            setTimeout("window.location='/index.php?action=renderPosts'", 2000);
+            setTimeout("window.location='/index.php?action=renderHome'", 2000);
           }
         },
         error: function(xhr){
@@ -112,7 +112,7 @@
     });
   });
 
-  /*$('.deleteComment').click(function(e){
+  $('.deleteComment').click(function(e){
     e.preventDefault();
     var custom_url = $(this).attr('href');
     $.ajax({
@@ -122,13 +122,13 @@
             popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
           } else {
             popMessage('.alert-success', 'Commentaire supprimé avec succès.');
-            setTimeout("window.location='/index.php?action=renderPosts'", 2000);
+            setTimeout("window.location='/index.php?action=renderHome'", 2000);
           }
         },
         error: function(xhr){
         }
     });
-  });*/
+  });
 
 })(jQuery); // End of use strict
 
