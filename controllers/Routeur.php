@@ -13,7 +13,8 @@ class Routeur{ /** Controlleur du routeur **/
         $error = new ErrorMessage('danger', 'Cette action n\'existe pas.');
         $blog->renderError($error);
       } else {
-        if ($action ==='renderPost' || $action === 'editPost' || $action === 'editPostView' || $action === 'deletePost' || $action === 'commentPost' || $action === 'deleteComment' && !empty($_GET['id'])) {
+        if ($action ==='renderPost' || $action === 'editPost' || $action === 'editPostView' || $action === 'deletePost' || $action === 'commentPost' || $action === 'deleteComment'
+        || $action === 'editComment' && !empty($_GET['id'])) {
           $id = $_GET['id'];
           $arrAction = preg_split('/(?=[A-Z])/',$action);
           $typeId = $arrAction[1];
