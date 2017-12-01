@@ -13,7 +13,7 @@ class Routeur{ /** Controlleur du routeur **/
         $error = new ErrorMessage('danger', 'Cette action n\'existe pas.');
         $blog->renderError($error);
       } else {
-        if ($action == 'renderPost' || $action == 'editPost' || $action == 'editPostView' || $action == 'deletePost') {
+        if ($action == 'renderPost' || $action == 'editPost' || $action == 'editPostView' || $action == 'deletePost' || $action = 'commentPost' && !empty($_GET['id'])) {
           $post_id = $_GET['id'];
           if (!(is_numeric($post_id)) || $post_id == '0') {
             $error = new ErrorMessage('danger', 'Le post doit être numérique.');
@@ -24,10 +24,12 @@ class Routeur{ /** Controlleur du routeur **/
               $error = new ErrorMessage('danger', 'Ce post n\'existe pas.');
               $blog->renderError($error);
             } else {
+              $action = $_GET['action'];
               $blog->$action();
             }
           }
         } else {
+          $action = $_GET['action'];
           $blog->$action();
         }
       }

@@ -30,9 +30,24 @@
                 {% endfor %}
               </div>
         </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <form action="index.php?action=commentPost&id={{ post.id }}" method="post">
+        <div class="form-group">
+          <label for="author">Votre nom *</label>
+          <input type="text" name="author" class="form-control" id="author" value="" required>
+        </div>
+        <div class="form-group">
+          <label for="content">Ajouter un commentaire *</label>
+          <textarea class="form-control" name="content" id="content" rows="8" cols="80" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary float-right" id="add-comment">Commenter</button>
+      </form>
       <!-- Pager -->
       <div class="clearfix">
-        <a class="btn btn-secondary float-right" href="/">Retour à l'accueil</a>
+        <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
       </div>
     </div>
   </div>

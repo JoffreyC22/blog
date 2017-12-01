@@ -58,7 +58,7 @@ class Blog{ /** Controlleur du blog **/
         $post->save($post);
         $message = 'done';
       }
-      return $message;
+      echo $message;
     }
   }
 
@@ -87,13 +87,17 @@ class Blog{ /** Controlleur du blog **/
         $post->update($post);
         $message = 'done';
       }
-      return $message;
+      echo $message;
     }
   }
 
   public function deletePost(){ /** Supprimer un post **/
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id);
+    $comments = $post->comments();
+    foreach ($comments as $comment) {
+      $comment->delete($comment);
+    }
     $delete = $post->delete($post);
     if (!$delete) {
       $message = 'done';
@@ -111,6 +115,26 @@ class Blog{ /** Controlleur du blog **/
         'message' => $error->getMessage()
       )
     ]);
+  }
+
+  public function commentPost(){ /** Commenter un post **/
+    $post_id = $_GET['id'];
+    $post = Post::whereId($post_id);
+
+    if (!empty($_POST)){
+      $author = $_POST['author'];
+      $content = $_POST['content'];
+      if (empty($author) || empty($content)) {
+        $message = 'not_complete';
+      } else {
+        $comment = new Comment();
+        $comment->setAuthor($author);
+        $comment->setContent($content);
+        $comment->save($comment, $post_id);
+        $message = 'done';
+      }
+      echo $message;
+    }
   }
 
 

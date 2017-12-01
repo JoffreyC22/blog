@@ -50,6 +50,28 @@
     }
   });
 
+  $('#add-comment').click(function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+    var form_data = form.serialize()
+    var custom_url = form.attr('action');
+    $.ajax({
+        type: 'POST',
+        data: form_data,
+        url: custom_url,
+        success: function(data){
+          if (data == 'not_complete') {
+            popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
+          } else {
+            popMessage('.alert-success', 'Commentaire enregistré avec succès.');
+          }
+        },
+        error: function(xhr){
+
+        }
+    });
+  });
+
   $('#add-post').click(function(e){
     e.preventDefault();
     var form = $(this).closest('form');

@@ -76,4 +76,18 @@ class Comment{
     }
     return $comments;
   }
+
+  public function save(Comment $comment, $post_id){
+
+    $sql = 'INSERT INTO comments (author,content,created_at,post_id) VALUES (?, ?, ?, ?)';
+    $date = date('Y-m-d H:i:s');
+    $db = Database::executeQuery($sql, array($comment->getAuthor(), $comment->getContent(), $date, $post_id));
+  }
+
+  public function delete(Comment $comment){
+
+    $comment_id = $comment->getId();
+    $sql = 'DELETE FROM comments WHERE id=?';
+    $db = Database::executeQuery($sql, array($comment_id));
+  }
 }
