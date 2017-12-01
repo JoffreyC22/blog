@@ -77,6 +77,17 @@ class Comment{
     return $comments;
   }
 
+  public static function whereId($comment_id){
+
+    $db = Database::connect();
+    $comment = null;
+    $request = $db->query('SELECT * FROM comments WHERE id ='.$comment_id);
+    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
+      $comment = new Comment($data);
+    }
+    return $comment;
+  }
+
   public function save(Comment $comment, $post_id){
 
     $sql = 'INSERT INTO comments (author,content,created_at,post_id) VALUES (?, ?, ?, ?)';

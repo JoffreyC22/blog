@@ -26,6 +26,7 @@
                   <p>le {{ comment.created_at }}</p>
                 </div>
                 <p>par <i>{{ comment.author }}</i></p>
+                <p><a href="/index.php?action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
                 <hr>
                 {% endfor %}
               </div>

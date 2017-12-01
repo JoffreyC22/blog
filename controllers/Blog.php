@@ -137,6 +137,18 @@ class Blog{ /** Controlleur du blog **/
     }
   }
 
+  public function deleteComment(){ /** Supprimer un commentaire **/
+    $comment_id = $_GET['id'];
+    $comment = Comment::whereId($comment_id);
+    $delete = $comment->delete($comment);
+    if (!$delete) {
+      $message = 'done';
+    } else {
+      $message = 'echec';
+    }
+    echo $message;
+  }
+
 
 
 }
