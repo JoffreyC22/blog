@@ -5,8 +5,8 @@ class Comment extends Modele{
   private $id;
   private $author;
   private $content;
-  private $created_at;
-  private $post_id;
+  private $createdAt;
+  private $postId;
 
   public function __construct($valeurs = array())
   {
@@ -30,7 +30,7 @@ class Comment extends Modele{
   }
 
   public function getPostId(){
-    return $this->post_id;
+    return $this->postId;
   }
 
   public function setId($id){
@@ -49,8 +49,8 @@ class Comment extends Modele{
     $this->created_at = $created_at;
   }
 
-  public function setPostId($post_id){
-    $this->post_id = $post_id;
+  public function setPostId($postId){
+    $this->postId = $postId;
   }
 
   public static function all(){

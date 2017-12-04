@@ -11,7 +11,7 @@
                 {{ post.content }}
               </p>
               <div class="flex-container post-details">
-                <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.created_at }}</p>
+                <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
                 <p><a href="/index.php?action=editPostView&id={{ post.id }}">Editer</a></p>
                 <p><a href="/index.php?action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
                 {% if comments|length > 0 %}
@@ -23,7 +23,7 @@
                 {% for comment in comments %}
                 <div class="flex-container">
                   <p>{{ comment.content }}</p>
-                  <p>le {{ comment.created_at }}</p>
+                  <p>le {{ comment.createdAt }}</p>
                 </div>
                 <p>par <i>{{ comment.author }}</i></p>
                 <p><a href="/index.php?action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
