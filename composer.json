@@ -1,6 +1,7 @@
 {
     "name": "joffreyc22/blog",
     "description": "Blog pour OpenClassrooms",
+    "license": "MIT",
     "require": {
         "twig/twig": "^2.4"
     }
