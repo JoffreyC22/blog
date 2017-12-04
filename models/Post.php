@@ -70,21 +70,20 @@ class Post{
 
   public static function whereId($post_id){
 
-    $db = Database::connect();
     $post = null;
-    $request = $db->query('SELECT * FROM posts WHERE id ='.$post_id);
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $post = new Post($data);
-    }
-    return $post;
+    $sql = 'SELECT * FROM posts WHERE id=?';
+    $db = Database::executeQuery($sql, array($post_id));
+    $data = $db->fetch(PDO::FETCH_ASSOC);
+    $post = new Post($data);
+    return ($data != false) ? $post : false;
   }
 
-  public function comments(){
+  public function comments($post_id){
 
-    $db = Database::connect();
     $comments = null;
-    $request = $db->query('SELECT * FROM comments WHERE post_id ='.$this->id);
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
+    $sql = 'SELECT * FROM comments WHERE post_id=?';
+    $db = Database::executeQuery($sql, array($post_id));
+    while ($data = $db->fetch(PDO::FETCH_ASSOC)) {
       $comments[] = new Comment($data);
     }
     return $comments;

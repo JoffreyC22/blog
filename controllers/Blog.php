@@ -30,7 +30,7 @@ class Blog{ /** Controlleur du blog **/
 
   public function renderPost(){ /** Un post **/
     $post = Post::whereId($_GET['id']);
-    $comments = $post->comments();
+    $comments = $post->comments($post->getId());
 
     $template = $this->twig->loadTemplate('post-view.twig');
     echo $template->render(array(

@@ -79,13 +79,12 @@ class Comment{
 
   public static function whereId($comment_id){
 
-    $db = Database::connect();
     $comment = null;
-    $request = $db->query('SELECT * FROM comments WHERE id ='.$comment_id);
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $comment = new Comment($data);
-    }
-    return $comment;
+    $sql = 'SELECT * FROM comments WHERE id=?';
+    $db = Database::executeQuery($sql, array($comment_id));
+    $data = $db->fetch(PDO::FETCH_ASSOC);
+    $comment = new Comment($comment);
+    return ($data != false) ? $comment : false;
   }
 
   public function save(Comment $comment, $post_id){
