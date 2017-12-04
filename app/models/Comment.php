@@ -75,7 +75,7 @@ class Comment extends Modele{
     $sql = 'SELECT * FROM comments WHERE id=?';
     $db = Database::executeQuery($sql, array($comment_id));
     $data = $db->fetch(PDO::FETCH_ASSOC);
-    $comment = new Comment($comment);
+    $comment = new Comment($data);
     return ($data !== false) ? $comment : false;
   }
 
