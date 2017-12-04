@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 abstract class Modele{
 
   protected function __construct($datas) {

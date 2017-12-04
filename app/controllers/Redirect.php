@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controllers;
+
 class Redirect{
 
   public static function action($action){

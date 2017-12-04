@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\Controllers\Database as Database;
+
 class Comment extends Modele{
 
   private $id;

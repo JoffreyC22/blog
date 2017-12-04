@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class ErrorMessage{
 
   public function __construct($type, $message){

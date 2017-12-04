@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Controllers\Blog as Blog;
+use App\Models\ErrorMessage as ErrorMessage;
+
 class Routeur{ /** Controlleur du routeur **/
 
   public function init(){
@@ -8,7 +13,7 @@ class Routeur{ /** Controlleur du routeur **/
 
     if (!empty($_GET['action'])) {
       $action = $_GET['action'];
-      $actions = $this->getActionsPossibles('Blog');
+      $actions = $this->getActionsPossibles('App\Controllers\Blog');
       if (!in_array($action, $actions)) {
         $error = new ErrorMessage('danger', 'Cette action n\'existe pas.');
         $blog->renderError($error);
@@ -22,7 +27,16 @@ class Routeur{ /** Controlleur du routeur **/
             $error = new ErrorMessage('danger', 'Le '.strtolower($typeId).' doit être numérique.');
             $blog->renderError($error);
           } else {
-            $entity = $typeId::whereId($id);
+            switch ($typeId) {
+              case 'Post':
+                $class = 'App\Models\Post';
+                break;
+
+              case 'Comment':
+                $class = 'App\Models\Comment';
+                break;
+            }
+            $entity = $class::whereId($id);
             if (!$entity) {
               $error = new ErrorMessage('danger', 'Ce '.strtolower($typeId).' n\'existe pas.');
               $blog->renderError($error);

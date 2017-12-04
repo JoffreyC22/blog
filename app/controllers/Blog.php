@@ -1,10 +1,16 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Models\Post as Post;
+use App\Models\Comment as Comment;
+use App\Models\ErrorMessage as ErrorMessage;
+
 class Blog{ /** Controlleur du blog **/
 
   public function __construct(){
-    $loader = new Twig_Loader_Filesystem('templates');
-    $this->twig = new Twig_Environment($loader, array(
+    $loader = new \Twig_Loader_Filesystem('templates');
+    $this->twig = new \Twig_Environment($loader, array(
      'cache' => false,
      'debug' => true
     ));
@@ -107,7 +113,7 @@ class Blog{ /** Controlleur du blog **/
     echo $message;
   }
 
-  public function renderError(Error $error){ /** Vue erreur **/
+  public function renderError(ErrorMessage $error){ /** Vue erreur **/
     $template = $this->twig->loadTemplate('error.twig');
     echo $template->render([
       'error' => array(

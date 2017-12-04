@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Models;
+
+use \PDO as PDO;
+use App\Models\Database as Database;
+use App\Models\Comment as Comment;
+
 class Post extends Modele{
 
   private $id;

@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once('autoload.php'); /** Mon autoload **/
 require_once('./vendor/autoload.php'); /** Autoload de twig **/
 
 define('DB_HOST', '127.0.0.1');
