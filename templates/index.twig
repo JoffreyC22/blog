@@ -9,11 +9,11 @@
           {% for post in posts %}
             <div class="post-preview">
                 <a href="/index.php?action=renderPost&id={{ post.id }}">
-                  <h2 class="post-title">{{ post.title }}</h2>
+                  <h2 class="post-title text-center">{{ post.title }}</h2>
                 </a>
-                <h3 class="post-subtitle">
+                <p>
                   {{ post.content }}
-                </h3>
+                </p>
                 <p class="post-meta">Posté par
                   <a href="#">Joffrey</a>
                   le {{ post.createdAt }}</p>
