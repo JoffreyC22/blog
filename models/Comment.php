@@ -26,7 +26,7 @@ class Comment extends Modele{
   }
 
   public function getCreatedAt(){
-    return $this->created_at;
+    return $this->createdAt;
   }
 
   public function getPostId(){
@@ -45,8 +45,8 @@ class Comment extends Modele{
     $this->content = $content;
   }
 
-  public function setCreatedAt($created_at){
-    $this->created_at = $created_at;
+  public function setCreatedAt($createdAt){
+    $this->createdAt = $createdAt;
   }
 
   public function setPostId($postId){
