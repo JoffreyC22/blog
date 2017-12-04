@@ -1,28 +1,15 @@
 <?php
 
-class Post{
+class Post extends Modele{
 
   private $id;
   private $title;
   private $content;
-  private $created_at;
+  private $createdAt;
 
   public function __construct($valeurs = array())
   {
-      if(!empty($valeurs))
-          $this->hydrate($valeurs);
-  }
-
-  public function hydrate(array $donnees)
-  {
-    foreach ($donnees as $key => $value)
-    {
-      $method = 'set'.ucfirst($key);
-      if (method_exists($this, $method))
-      {
-        $this->$method($value);
-      }
-    }
+    parent::__construct($valeurs);
   }
 
   public function getId(){
@@ -38,7 +25,7 @@ class Post{
   }
 
   public function getCreatedAt(){
-    return $this->created_at;
+    return $this->createdAt;
   }
 
   public function setId($id){
@@ -53,8 +40,8 @@ class Post{
     $this->content = $content;
   }
 
-  public function setCreatedAt($created_at){
-    $this->created_at = $created_at;
+  public function setCreatedAt($createdAt){
+    $this->createdAt = $createdAt;
   }
 
   public static function all(){
