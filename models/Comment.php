@@ -38,11 +38,11 @@ class Comment{
     return $this->content;
   }
 
-  public function getCreated_at(){
+  public function getCreatedAt(){
     return $this->created_at;
   }
 
-  public function getPost_id(){
+  public function getPostId(){
     return $this->post_id;
   }
 
@@ -58,11 +58,11 @@ class Comment{
     $this->content = $content;
   }
 
-  public function setCreated_at($created_at){
+  public function setCreatedAt($created_at){
     $this->created_at = $created_at;
   }
 
-  public function setPost_id($post_id){
+  public function setPostId($post_id){
     $this->post_id = $post_id;
   }
 
