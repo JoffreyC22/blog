@@ -1,4 +1,6 @@
 {
+    "name": "joffreyc22/blog",
+    "description": "Blog pour OpenClassrooms",
     "require": {
         "twig/twig": "^2.4"
     }
