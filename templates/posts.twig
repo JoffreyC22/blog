@@ -6,7 +6,9 @@
     <div class="col-lg-8 col-md-10 mx-auto">
       {% for post in posts %}
         <div class="post-preview">
-            <h2 class="post-title text-center">{{ post.title }}</h2>
+            <a href="/index.php?action=renderPost&id={{ post.id }}">
+              <h2 class="post-title text-center">{{ post.title }}</h2>
+            </a>
             <p>
               {{ post.content }}
             </p>
@@ -14,22 +16,8 @@
               <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
               <p><a href="/index.php?action=editPostView&id={{ post.id }}">Editer</a></p>
               <p><a href="/index.php?action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
-              {% if post.comments|length > 0 %}
-                <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ post.comments|length }}) commentaire(s)</a></p>
-              {% endif %}
             </div>
             <hr>
-            <div class="comment-section" style="display:none;">
-              {% for comment in post.comments %}
-              <div class="flex-container comment-details">
-                <p>{{ comment.content }}</p>
-                <p>le {{ comment.createdAt }}</p>
-              </div>
-              <p>par <i>{{ comment.author }}</i></p>
-              <p><a href="/index.php?action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
-              <hr>
-              {% endfor %}
-            </div>
           </div>
       {% endfor %}
       <!-- Pager -->

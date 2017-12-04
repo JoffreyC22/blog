@@ -100,7 +100,7 @@ class Blog{ /** Controlleur du blog **/
   public function deletePost(){ /** Supprimer un post **/
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id);
-    $comments = $post->comments();
+    $comments = $post->comments($post_id);
     foreach ($comments as $comment) {
       $comment->delete($comment);
     }
