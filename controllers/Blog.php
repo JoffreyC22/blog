@@ -119,7 +119,6 @@ class Blog{ /** Controlleur du blog **/
 
   public function commentPost(){ /** Commenter un post **/
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id);
 
     if (!empty($_POST)){
       $author = $_POST['author'];
