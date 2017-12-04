@@ -21,7 +21,7 @@ class Database extends PDO {
     }
 
     public static function executeQuery($sql, $params = null){
-      if ($params == null) {
+      if ($params === null) {
           $resultat = self::connect()->query($sql);
       } else {
           $resultat = self::connect()->prepare($sql);

@@ -84,7 +84,7 @@ class Comment{
     $db = Database::executeQuery($sql, array($comment_id));
     $data = $db->fetch(PDO::FETCH_ASSOC);
     $comment = new Comment($comment);
-    return ($data != false) ? $comment : false;
+    return ($data !== false) ? $comment : false;
   }
 
   public function save(Comment $comment, $post_id){

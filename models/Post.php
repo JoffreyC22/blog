@@ -75,7 +75,7 @@ class Post{
     $db = Database::executeQuery($sql, array($post_id));
     $data = $db->fetch(PDO::FETCH_ASSOC);
     $post = new Post($data);
-    return ($data != false) ? $post : false;
+    return ($data !== false) ? $post : false;
   }
 
   public function comments($post_id){

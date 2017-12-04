@@ -107,7 +107,7 @@ class Blog{ /** Controlleur du blog **/
     echo $message;
   }
 
-  public function renderError($error){ /** Vue erreur **/
+  public function renderError(Error $error){ /** Vue erreur **/
     $template = $this->twig->loadTemplate('error.twig');
     echo $template->render([
       'error' => array(
