@@ -6,14 +6,10 @@ use App\Models\Post as Post;
 use App\Models\Comment as Comment;
 use App\Models\ErrorMessage as ErrorMessage;
 
-class Blog{ /** Controlleur du blog **/
+class Blog extends Controller{ /** Controlleur du blog **/
 
   public function __construct(){
-    $loader = new \Twig_Loader_Filesystem('templates');
-    $this->twig = new \Twig_Environment($loader, array(
-     'cache' => false,
-     'debug' => true
-    ));
+    parent::__construct();
   }
 
   public function renderHome() { /** Home blog **/
@@ -111,16 +107,6 @@ class Blog{ /** Controlleur du blog **/
       $message = 'echec';
     }
     echo $message;
-  }
-
-  public function renderError(ErrorMessage $error){ /** Vue erreur **/
-    $template = $this->twig->loadTemplate('error.twig');
-    echo $template->render([
-      'error' => array(
-        'type' => $error->getType(),
-        'message' => $error->getMessage()
-      )
-    ]);
   }
 
   public function commentPost(){ /** Commenter un post **/

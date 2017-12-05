@@ -3,31 +3,35 @@
 namespace App\Controllers;
 
 use App\Controllers\Blog as Blog;
+use App\Controllers\Auth as Auth;
 use App\Models\ErrorMessage as ErrorMessage;
 
 class Routeur{ /** Controlleur du routeur **/
 
   public function init(){
 
-    $blog = new Blog();
-
-    if (!empty($_GET['action'])) {
-      $action = $_GET['action'];
-      $actions = $this->getActionsPossibles('App\Controllers\Blog');
-      if (!in_array($action, $actions)) {
-        $error = new ErrorMessage('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
-        $blog->renderError($error);
-      } else {
-        if ($this->getActionsToVerify() && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
-          $id = $_GET['id'];
-          $class = $this->getClass($action);
-          $this->checkIdValidity($blog, $id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+    if (!empty($_GET['controller'])) {
+      $controller = 'App\Controllers\\'.$_GET['controller'];
+      $controller = new $controller();
+      if (!empty($_GET['action'])) {
+        $action = $_GET['action'];
+        $actions = $this->getActionsPossibles($controller);
+        if (!in_array($action, $actions)) {
+          $error = new ErrorMessage('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
+          $controller->renderError($error);
         } else {
-          $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
-          $blog->$action();
+          if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
+            $id = $_GET['id'];
+            $class = $this->getClass($action);
+            $this->checkIdValidity($controller, $id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+          } else {
+            $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
+            $controller->$action();
+          }
         }
       }
-    } else { /** Si pas de param action, renvoit vers la home **/
+    } else {
+      $blog = new Blog();
       $blog->renderHome();
     }
   }
@@ -38,9 +42,9 @@ class Routeur{ /** Controlleur du routeur **/
     return $actions;
   }
 
-  private function getActionsToVerify(){ /** Retourne les actions pour lesquelles une vérification est nécessaire (param id) **/
+  private function getActionsToVerify(Controller $controller){ /** Retourne les actions pour lesquelles une vérification est nécessaire (param id) **/
     $arrActionsToVerify = [];
-    $actions = $this->getActionsPossibles('App\Controllers\Blog');
+    $actions = $this->getActionsPossibles($controller);
     foreach ($actions as $action) {
       if (strpos($action, 'edit') || strpos($action, 'delete') || $action === 'renderPost' || strpos($action, 'comment')) {
         $arrActionsToVerify[] = $action;
@@ -60,18 +64,18 @@ class Routeur{ /** Controlleur du routeur **/
     return $class;
   }
 
-  private function checkIdValidity(Blog $blog, $id, $class){
+  private function checkIdValidity(Controller $controller, $id, $class){ /** Verifie la validité de l'id passé en paramètre **/
     if (!(is_numeric($id)) || $id == '0') {
       $error = new ErrorMessage('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
-      $blog->renderError($error);
+      $controller->renderError($error);
     } else {
       $entity = $class['withNamespace']::whereId($id);
       if (!$entity) {
         $error = new ErrorMessage('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
-        $blog->renderError($error);
+        $controller->renderError($error);
       } else {
         $action = $_GET['action'];
-        $blog->$action();
+        $controller->$action();
       }
     }
   }

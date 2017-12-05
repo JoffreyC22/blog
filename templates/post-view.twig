@@ -12,8 +12,8 @@
               </p>
               <div class="flex-container post-details">
                 <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
-                <p><a href="/index.php?action=editPostView&id={{ post.id }}">Editer</a></p>
-                <p><a href="/index.php?action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
+                <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
+                <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
                 {% if comments|length > 0 %}
                   <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ comments|length }}) commentaire(s)</a></p>
                 {% endif %}
@@ -26,7 +26,7 @@
                   <p>le {{ comment.createdAt }}</p>
                 </div>
                 <p>par <i>{{ comment.author }}</i></p>
-                <p><a href="/index.php?action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
+                <p><a href="/index.php?controller=Blog&action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
                 <hr>
                 {% endfor %}
               </div>
@@ -35,7 +35,7 @@
   </div>
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="index.php?action=commentPost&id={{ post.id }}" method="post">
+        <form action="index.php?controller=Blog&action=commentPost&id={{ post.id }}" method="post">
         <div class="form-group">
           <label for="author">Votre nom *</label>
           <input type="text" name="author" class="form-control" id="author" value="" required>
