@@ -18,8 +18,7 @@ class Routeur{ /** Controlleur du routeur **/
         $error = new ErrorMessage('danger', 'Cette action n\'existe pas.');
         $blog->renderError($error);
       } else {
-        if ($action ==='renderPost' || $action === 'editPost' || $action === 'editPostView' || $action === 'deletePost' || $action === 'commentPost' || $action === 'deleteComment'
-        || $action === 'editComment' && !empty($_GET['id'])) {
+        if ($this->getActionsToVerify() && !empty($_GET['id'])) {
           $id = $_GET['id'];
           $arrAction = preg_split('/(?=[A-Z])/',$action);
           $typeId = $arrAction[1];
@@ -55,9 +54,22 @@ class Routeur{ /** Controlleur du routeur **/
     }
   }
 
-  public function getActionsPossibles($classname){
+  private function getActionsPossibles($classname){ /** Retourne les actions possible pour tel controller */
     $actions = get_class_methods($classname);
+
     return $actions;
+  }
+
+  private function getActionsToVerify(){ /** Retourne les actions pour lesquelles une vérification est nécessaire (param id) **/
+    $arrActionsToVerify = [];
+    $actions = $this->getActionsPossibles('App\Controllers\Blog');
+    foreach ($actions as $action) {
+      if (strpos($action, 'edit') || strpos($action, 'delete') || $action === 'renderPost' || strpos($action, 'comment')) {
+        $arrActionsToVerify[] = $action;
+      }
+    }
+
+    return $arrActionsToVerify;
   }
 
 }
