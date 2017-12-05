@@ -43,11 +43,11 @@ class Auth extends Controller{
   public function logout(){
     if (isset($_SESSION['user'])) {
       $_SESSION = array();
-      $message = new Alert('success', 'Vous êtes bien déconnecté.');
-      $this->renderMessage($message);
+      $alert = new Alert('success', 'Vous êtes bien déconnecté.');
+      $this->renderMessage($alert);
     } else {
-      $error = new Alert('danger', 'Vous n\'êtes pas connecté.');
-      $this->renderMessage($error);
+      $alert = new Alert('danger', 'Vous n\'êtes pas connecté.');
+      $this->renderMessage($alert);
     }
   }
 }

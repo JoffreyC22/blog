@@ -15,12 +15,12 @@ abstract class Controller{
     $this->twig->addGlobal('session', $_SESSION);
   }
 
-  public function renderMessage(Alert $message){ /** Vue message **/
+  public function renderMessage($alert){ /** Vue message **/
     $template = $this->twig->loadTemplate('alert.twig');
     echo $template->render([
-      'message' => array(
-        'type' => $error->getType(),
-        'message' => $error->getMessage()
+      'alert' => array(
+        'type' => $alert->getType(),
+        'message' => $alert->getMessage()
       )
     ]);
   }
