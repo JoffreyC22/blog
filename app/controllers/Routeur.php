@@ -60,7 +60,7 @@ class Routeur{ /** Controlleur du routeur **/
     return $class;
   }
 
-  private function checkIdValidity($blog, $id, $class){
+  private function checkIdValidity(Blog $blog, $id, $class){
     if (!(is_numeric($id)) || $id == '0') {
       $error = new ErrorMessage('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
       $blog->renderError($error);
