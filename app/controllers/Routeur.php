@@ -11,7 +11,7 @@ class Routeur{ /** Controlleur du routeur **/
   public function init(){
 
     if (!empty($_GET['controller'])) {
-      $controller = 'App\Controllers\\'.$_GET['controller'];
+      $controller = __NAMESPACE__ .'\\'.$_GET['controller'];
       $controller = new $controller();
       if (!empty($_GET['action'])) {
         $action = $_GET['action'];
