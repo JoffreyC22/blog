@@ -15,7 +15,7 @@ abstract class Controller{
     $this->twig->addGlobal('session', $_SESSION);
   }
 
-  public function renderMessage($alert){ /** Vue message **/
+  public function renderMessage(Alert $alert){ /** Vue message **/
     $template = $this->twig->loadTemplate('alert.twig');
     echo $template->render([
       'alert' => array(
