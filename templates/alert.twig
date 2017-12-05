@@ -5,13 +5,13 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          {% if error.type == 'danger' %}
+          {% if alert.type == 'danger' %}
             <div class="alert alert-danger">
-              <p>{{ error.message }}</p>
+              <p>{{ alert.message }}</p>
             </div>
           {% else %}
-            <div class="alert alert-warning">
-              <p>{{ error.message }}</p>
+            <div class="alert alert-success">
+              <p>{{ alert.message }}</p>
             </div>
           {% endif %}
         </div>

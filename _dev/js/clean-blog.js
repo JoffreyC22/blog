@@ -17,25 +17,25 @@
   if ($(window).width() > MQL) {
     var headerHeight = $('#mainNav').height();
     $(window).on('scroll', {
-        previousTop: 0
-      },
-      function() {
-        var currentTop = $(window).scrollTop();
-        //check if user is scrolling up
-        if (currentTop < this.previousTop) {
-          //if scrolling up...
-          if (currentTop > 0 && $('#mainNav').hasClass('is-fixed')) {
-            $('#mainNav').addClass('is-visible');
-          } else {
-            $('#mainNav').removeClass('is-visible is-fixed');
-          }
-        } else if (currentTop > this.previousTop) {
-          //if scrolling down...
-          $('#mainNav').removeClass('is-visible');
-          if (currentTop > headerHeight && !$('#mainNav').hasClass('is-fixed')) $('#mainNav').addClass('is-fixed');
+      previousTop: 0
+    },
+    function() {
+      var currentTop = $(window).scrollTop();
+      //check if user is scrolling up
+      if (currentTop < this.previousTop) {
+        //if scrolling up...
+        if (currentTop > 0 && $('#mainNav').hasClass('is-fixed')) {
+          $('#mainNav').addClass('is-visible');
+        } else {
+          $('#mainNav').removeClass('is-visible is-fixed');
         }
-        this.previousTop = currentTop;
-      });
+      } else if (currentTop > this.previousTop) {
+        //if scrolling down...
+        $('#mainNav').removeClass('is-visible');
+        if (currentTop > headerHeight && !$('#mainNav').hasClass('is-fixed')) $('#mainNav').addClass('is-fixed');
+      }
+      this.previousTop = currentTop;
+    });
   }
 
   $('.show-comments').click(function(e){
@@ -56,19 +56,19 @@
     var form_data = form.serialize()
     var custom_url = form.attr('action');
     $.ajax({
-        type: 'POST',
-        data: form_data,
-        url: custom_url,
-        success: function(data){
-          if (data == 'not_complete') {
-            popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
-          } else {
-            popMessage('.alert-success', 'Commentaire enregistré avec succès.');
-          }
-        },
-        error: function(xhr){
-
+      type: 'POST',
+      data: form_data,
+      url: custom_url,
+      success: function(data){
+        if (data == 'not_complete') {
+          popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
+        } else {
+          popMessage('.alert-success', 'Commentaire enregistré avec succès.');
         }
+      },
+      error: function(xhr){
+
+      }
     });
   });
 
@@ -78,19 +78,19 @@
     var form_data = form.serialize()
     var custom_url = form.attr('action');
     $.ajax({
-        type: 'POST',
-        data: form_data,
-        url: custom_url,
-        success: function(data){
-          if (data == 'not_complete') {
-            popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
-          } else {
-            popMessage('.alert-success', 'Post enregistré avec succès.');
-          }
-        },
-        error: function(xhr){
-
+      type: 'POST',
+      data: form_data,
+      url: custom_url,
+      success: function(data){
+        if (data == 'not_complete') {
+          popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
+        } else {
+          popMessage('.alert-success', 'Post enregistré avec succès.');
         }
+      },
+      error: function(xhr){
+
+      }
     });
   });
 
@@ -98,17 +98,17 @@
     e.preventDefault();
     var custom_url = $(this).attr('href');
     $.ajax({
-        url: custom_url,
-        success: function(data){
-          if (data == 'echec') {
-            popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
-          } else {
-            popMessage('.alert-success', 'Post supprimé avec succès.');
-            setTimeout("window.location='/index.php?action=renderHome'", 2000);
-          }
-        },
-        error: function(xhr){
+      url: custom_url,
+      success: function(data){
+        if (data == 'echec') {
+          popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
+        } else {
+          popMessage('.alert-success', 'Post supprimé avec succès.');
+          setTimeout("window.location='/index.php?action=renderHome'", 2000);
         }
+      },
+      error: function(xhr){
+      }
     });
   });
 
@@ -116,25 +116,48 @@
     e.preventDefault();
     var custom_url = $(this).attr('href');
     $.ajax({
-        url: custom_url,
-        success: function(data){
-          if (data == 'echec') {
-            popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
-          } else {
-            popMessage('.alert-success', 'Commentaire supprimé avec succès.');
-            setTimeout("window.location='/index.php?action=renderHome'", 2000);
-          }
-        },
-        error: function(xhr){
+      url: custom_url,
+      success: function(data){
+        if (data == 'echec') {
+          popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
+        } else {
+          popMessage('.alert-success', 'Commentaire supprimé avec succès.');
+          setTimeout("window.location='/index.php?action=renderHome'", 2000);
         }
+      },
+      error: function(xhr){
+      }
     });
   });
+
+  $('#login').click(function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+    var form_data = form.serialize()
+    var custom_url = form.attr('action');
+    $.ajax({
+      type: 'POST',
+      data: form_data,
+      url: custom_url,
+      success: function(data){
+        if (data == 'not_complete') {
+          popMessage('.alert-danger', 'Le couple nom d\'utilisateur/mot de passe est incorrect');
+        } else {
+          popMessage('.alert-success', 'Bienvenue '+data+' !');
+          setTimeout("window.location='/index.php?action=renderHome'", 2000);
+        }
+      },
+      error: function(xhr){
+      }
+    });
+  });
+
 
 })(jQuery); // End of use strict
 
 function popMessage(typeError, string){
   $(typeError).append('<p>'+string+'</p>');
   $(typeError).fadeIn(function(){
-   $(this).delay(5000).fadeOut();
+    $(this).delay(5000).fadeOut();
   });
 }

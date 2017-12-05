@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class ErrorMessage{
+class Alert{
 
   public function __construct($type, $message){
     $this->type = $type;

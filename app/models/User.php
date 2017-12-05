@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Database as Database;
+use \PDO as PDO;
 
 class User extends Modele{
 
@@ -37,5 +38,15 @@ class User extends Modele{
 
   public function setPassword($password){
     $this->password = $password;
+  }
+
+  public static function getFirst($username, $password){ /** Retourne l'utilisateur en fonction de l'username et du mot de passe **/
+    $user = null;
+    $sql = 'SELECT * FROM users WHERE username=? AND password=?';
+    $db = Database::executeQuery($sql, array($username, $password));
+    $data = $db->fetch(PDO::FETCH_ASSOC);
+    $user = new User($data);
+
+    return ($data !== false) ? $user : false;
   }
 }

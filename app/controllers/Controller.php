@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\ErrorMessage as ErrorMessage;
+use App\Models\Alert as Alert;
 
 abstract class Controller{
 
@@ -12,12 +12,13 @@ abstract class Controller{
      'cache' => false,
      'debug' => true
     ));
+    $this->twig->addGlobal('session', $_SESSION);
   }
 
-  public function renderError(ErrorMessage $error){ /** Vue erreur **/
-    $template = $this->twig->loadTemplate('error.twig');
+  public function renderMessage(Alert $message){ /** Vue message **/
+    $template = $this->twig->loadTemplate('alert.twig');
     echo $template->render([
-      'error' => array(
+      'message' => array(
         'type' => $error->getType(),
         'message' => $error->getMessage()
       )

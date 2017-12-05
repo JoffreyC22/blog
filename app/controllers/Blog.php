@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Post as Post;
 use App\Models\Comment as Comment;
-use App\Models\ErrorMessage as ErrorMessage;
 
 class Blog extends Controller{ /** Controlleur du blog **/
 

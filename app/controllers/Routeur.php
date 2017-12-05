@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Blog as Blog;
-use App\Models\ErrorMessage as ErrorMessage;
+use App\Models\Alert as Alert;
 use App\Models\Modele as Modele;
 
 class Routeur{ /** Controlleur du routeur **/
@@ -17,8 +17,8 @@ class Routeur{ /** Controlleur du routeur **/
         $action = $_GET['action'];
         $actions = $this->getActionsPossibles($controller);
         if (!in_array($action, $actions)) {
-          $error = new ErrorMessage('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
-          $controller->renderError($error);
+          $error = new Alert('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
+          $controller->renderMessage($error);
         } else {
           if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
             $id = $_GET['id'];
@@ -67,13 +67,13 @@ class Routeur{ /** Controlleur du routeur **/
 
   private function checkIdValidity(Controller $controller, $id, $class){ /** Verifie la validité de l'id passé en paramètre **/
     if (!(is_numeric($id)) || $id == '0') {
-      $error = new ErrorMessage('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
-      $controller->renderError($error);
+      $error = new Alert('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
+      $controller->renderMessage($error);
     } else {
       $entity = $class['withNamespace']::whereId($id, $class['databaseName']);
       if (!$entity) {
-        $error = new ErrorMessage('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
-        $controller->renderError($error);
+        $error = new Alert('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
+        $controller->renderMessage($error);
       } else {
         $action = $_GET['action'];
         $controller->$action();
