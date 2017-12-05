@@ -58,27 +58,6 @@ class Comment extends Modele{
     $this->postId = $postId;
   }
 
-  public static function all(){
-
-    $db = Database::connect();
-    $comments = null;
-    $request = $db->query('SELECT * FROM comments ORDER by id DESC');
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $comments[] = new Comment($data);
-    }
-    return $comments;
-  }
-
-  public static function whereId($comment_id){
-
-    $comment = null;
-    $sql = 'SELECT * FROM comments WHERE id=?';
-    $db = Database::executeQuery($sql, array($comment_id));
-    $data = $db->fetch(PDO::FETCH_ASSOC);
-    $comment = new Comment($data);
-    return ($data !== false) ? $comment : false;
-  }
-
   public function save(Comment $comment, $post_id){
 
     $sql = 'INSERT INTO comments (author,content,created_at,post_id) VALUES (?, ?, ?, ?)';

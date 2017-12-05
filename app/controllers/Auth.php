@@ -15,4 +15,8 @@ class Auth extends Controller{
     $template = $this->twig->loadTemplate('login.twig');
     echo $template->render([]);
   }
+
+  public function login(){
+
+  }
 }

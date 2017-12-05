@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Blog as Blog;
 use App\Models\ErrorMessage as ErrorMessage;
+use App\Models\Modele as Modele;
 
 class Routeur{ /** Controlleur du routeur **/
 
@@ -57,7 +58,8 @@ class Routeur{ /** Controlleur du routeur **/
     $arrAction = preg_split('/(?=[A-Z])/',$action);
     $class = [
       'withNamespace' => 'App\Models\\'.$arrAction[1],
-      'name' => $arrAction[1]
+      'name' => $arrAction[1],
+      'databaseName' => Modele::getDbName($arrAction[1])
     ];
 
     return $class;
@@ -68,7 +70,7 @@ class Routeur{ /** Controlleur du routeur **/
       $error = new ErrorMessage('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
       $controller->renderError($error);
     } else {
-      $entity = $class['withNamespace']::whereId($id);
+      $entity = $class['withNamespace']::whereId($id, $class['databaseName']);
       if (!$entity) {
         $error = new ErrorMessage('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
         $controller->renderError($error);

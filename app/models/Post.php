@@ -50,27 +50,6 @@ class Post extends Modele{
     $this->createdAt = $createdAt;
   }
 
-  public static function all(){
-
-    $db = Database::connect();
-    $posts = null;
-    $request = $db->query('SELECT * FROM posts ORDER by id DESC');
-    while ($data = $request->fetch(PDO::FETCH_ASSOC)) {
-      $posts[] = new Post($data);
-    }
-    return $posts;
-  }
-
-  public static function whereId($post_id){
-
-    $post = null;
-    $sql = 'SELECT * FROM posts WHERE id=?';
-    $db = Database::executeQuery($sql, array($post_id));
-    $data = $db->fetch(PDO::FETCH_ASSOC);
-    $post = new Post($data);
-    return ($data !== false) ? $post : false;
-  }
-
   public function comments($post_id){
 
     $comments = null;

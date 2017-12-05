@@ -13,7 +13,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderHome() { /** Home blog **/
-    $posts = Post::all();
+    $posts = Post::all('posts');
 
     $template = $this->twig->loadTemplate('index.twig');
     echo $template->render(array(
@@ -22,7 +22,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderPosts() { /** Tous les posts **/
-    $posts = Post::all();
+    $posts = Post::all('posts');
 
     $template = $this->twig->loadTemplate('posts.twig');
     echo $template->render(array(
@@ -31,7 +31,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderPost(){ /** Un post **/
-    $post = Post::whereId($_GET['id']);
+    $post = Post::whereId($_GET['id'], 'posts');
     $comments = $post->comments($post->getId());
 
     $template = $this->twig->loadTemplate('post-view.twig');
@@ -66,7 +66,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function editPostView(){ /** Vue pour éditer un post **/
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id);
+    $post = Post::whereId($post_id, 'posts');
 
     $template = $this->twig->loadTemplate('post-create-edit.twig');
     echo $template->render([
@@ -76,7 +76,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function editPost(){ /** Action éditer un post **/
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id);
+    $post = Post::whereId($post_id, 'posts');
 
     if (!empty($_POST)){
       $title = $_POST['title'];
@@ -95,7 +95,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function deletePost(){ /** Supprimer un post **/
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id);
+    $post = Post::whereId($post_id, 'posts');
     $comments = $post->comments($post_id);
     foreach ($comments as $comment) {
       $comment->delete($comment);
@@ -130,7 +130,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function deleteComment(){ /** Supprimer un commentaire **/
     $comment_id = $_GET['id'];
-    $comment = Comment::whereId($comment_id);
+    $comment = Comment::whereId($comment_id, 'comments');
     $delete = $comment->delete($comment);
     if (!$delete) {
       $message = 'done';
