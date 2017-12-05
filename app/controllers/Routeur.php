@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\Blog as Blog;
-use App\Controllers\Auth as Auth;
 use App\Models\ErrorMessage as ErrorMessage;
 
 class Routeur{ /** Controlleur du routeur **/
@@ -30,7 +29,7 @@ class Routeur{ /** Controlleur du routeur **/
           }
         }
       }
-    } else {
+    } else { /** Si pas de controller, direction home **/
       $blog = new Blog();
       $blog->renderHome();
     }
