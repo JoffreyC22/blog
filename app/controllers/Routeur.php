@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Controllers\Blog as Blog;
 use App\Models\Alert as Alert;
 use App\Models\Modele as Modele;
-use \ReflectionClass as ReflectionClass;
 
 class Routeur{ /** Controlleur du routeur **/
 
