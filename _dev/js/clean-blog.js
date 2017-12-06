@@ -104,7 +104,7 @@
           popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
         } else {
           popMessage('.alert-success', 'Post supprimé avec succès.');
-          setTimeout("window.location='/index.php?action=renderHome'", 2000);
+          setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
         }
       },
       error: function(xhr){
@@ -122,7 +122,7 @@
           popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
         } else {
           popMessage('.alert-success', 'Commentaire supprimé avec succès.');
-          setTimeout("window.location='/index.php?action=renderHome'", 2000);
+          setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
         }
       },
       error: function(xhr){
@@ -141,10 +141,36 @@
       url: custom_url,
       success: function(data){
         if (data == 'not_complete') {
-          popMessage('.alert-danger', 'Le couple nom d\'utilisateur/mot de passe est incorrect');
+          popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
+        } else if (data == 'not_existing'){
+          popMessage('.alert-danger', 'Le couple e-mail/mot de passe est incorrect');
         } else {
           popMessage('.alert-success', 'Bienvenue '+data+' !');
-          setTimeout("window.location='/index.php?action=renderHome'", 2000);
+          setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
+        }
+      },
+      error: function(xhr){
+      }
+    });
+  });
+
+  $('#register').click(function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+    var form_data = form.serialize()
+    var custom_url = form.attr('action');
+    $.ajax({
+      type: 'POST',
+      data: form_data,
+      url: custom_url,
+      success: function(data){
+        if (data == 'not_complete') {
+          popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
+        } else if (data == 'already_exists'){
+          popMessage('.alert-danger', 'Cette adresse e-mail est déjà présente en base.');
+        } else {
+          popMessage('.alert-success', 'Vous êtes bien enregistré.');
+          setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
         }
       },
       error: function(xhr){
@@ -156,6 +182,7 @@
 })(jQuery); // End of use strict
 
 function popMessage(typeError, string){
+  $(typeError).empty();
   $(typeError).append('<p>'+string+'</p>');
   $(typeError).fadeIn(function(){
     $(this).delay(5000).fadeOut();

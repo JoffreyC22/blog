@@ -12,6 +12,13 @@ class Auth extends Controller{
     parent::__construct();
   }
 
+  public static function isLogged(){
+    if (isset($_SESSION['user'])) {
+      return true;
+    }
+    return false;
+  }
+
   public function renderLogin(){
 
     $template = $this->twig->loadTemplate('login.twig');
@@ -24,25 +31,57 @@ class Auth extends Controller{
     echo $template->render([]);
   }
 
-  public function login(){
-    if (!empty($_POST)) {
-      $username = $_POST['username'];
-      $password = sha1($_POST['password']);
-      if (empty($username) || empty($password)) {
-        $message = 'not_complete';
+  public function register(){
+    $checkRequiredFields = $this->checkRequiredFields(['firstname', 'lastname', 'email', 'username', 'password']);
+    if (!$checkRequiredFields) {
+      $message = 'not_complete';
+    } else {
+      foreach ($_POST as $key => $value) {
+        ${$key} = $value;
+      }
+      $user = User::exists($email);
+      if ($user) {
+        $message = 'already_exists';
       } else {
-        $user = User::getFirst($username, $password);
+        $userToRegister = new User();
+        $userToRegister->setFirstname($firstname);
+        $userToRegister->setLastname($lastname);
+        $userToRegister->setEmail($email);
+        $userToRegister->setUsername($username);
+        $userToRegister->setPassword(sha1($password));
+        $userToRegister->save($userToRegister);
+        $message = 'done';
+      }
+    }
+    echo $message;
+  }
+
+  public function login(){
+    $checkRequiredFields = $this->checkRequiredFields(['email', 'password']);
+    if (!$checkRequiredFields) {
+      $message = 'not_complete';
+    } else {
+        foreach ($_POST as $key => $value) {
+          if ($key == 'password') {
+            ${$key} = sha1($value);
+          } else {
+            ${$key} = $value;
+          }
+        }
+        $user = User::getFirst($email, $password);
         if ($user) {
           $_SESSION['user']['id'] = $user->getId();
+          $_SESSION['user']['firstname'] = $user->getFirstname();
+          $_SESSION['user']['lastname'] = $user->getLastname();
+          $_SESSION['user']['email'] = $user->getEmail();
           $_SESSION['user']['username'] = $user->getUsername();
           $_SESSION['user']['password'] = $user->getPassword();
-          $message = $user->getUsername();
+          $message = $user->getFirstname();
         } else {
-          $message = 'not_complete';
+          $message = 'not_existing';
         }
-      }
-      echo $message;
     }
+    echo $message;
   }
 
   public function logout(){

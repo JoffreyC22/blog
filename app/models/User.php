@@ -67,13 +67,29 @@ class User extends Modele{
     $this->password = $password;
   }
 
-  public static function getFirst($username, $password){ /** Retourne l'utilisateur en fonction de l'username et du mot de passe **/
+  public static function getFirst($email, $password){ /** Retourne l'utilisateur en fonction de l'e-mail et du mot de passe **/
     $user = null;
-    $sql = 'SELECT * FROM users WHERE username=? AND password=?';
-    $db = Database::executeQuery($sql, array($username, $password));
+    $sql = 'SELECT * FROM users WHERE email=? AND password=?';
+    $db = Database::executeQuery($sql, array($email, $password));
     $data = $db->fetch(PDO::FETCH_ASSOC);
     $user = new User($data);
 
     return ($data !== false) ? $user : false;
+  }
+
+  public static function exists($email){ /** Email **/
+    $user = null;
+    $sql = "SELECT * FROM users WHERE email=?";
+    $db = Database::executeQuery($sql, array($email));
+    $data = $db->fetch(PDO::FETCH_ASSOC);
+    $user = new User($data);
+
+    return ($data !== false) ? $user : false;
+  }
+
+  public function save(User $user){
+
+    $sql = 'INSERT INTO users (firstname,lastname,email,username,password) VALUES (?, ?, ?, ?, ?)';
+    Database::executeQuery($sql, array($user->firstname, $user->lastname, $user->email, $user->username, $user->password));
   }
 }
