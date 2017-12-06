@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Blog as Blog;
 use App\Models\Alert as Alert;
 use App\Models\Modele as Modele;
+use \ReflectionClass as ReflectionClass;
 
 class Routeur{ /** Controlleur du routeur **/
 
@@ -36,10 +37,11 @@ class Routeur{ /** Controlleur du routeur **/
     }
   }
 
-  private function getActionsPossibles($classname){ /** Retourne les actions possible pour tel controller **/
-    $actions = get_class_methods($classname);
+  private function getActionsPossibles($classname){ /** Retourne les actions possible pour tel controller sans le constructeur et la classe parente **/
 
-    return $actions;
+    $parentClass = get_parent_class($classname);
+    $methods = array_diff(get_class_methods($classname), get_class_methods($parentClass));
+    return $methods;
   }
 
   private function getActionsToVerify(Controller $controller){ /** Retourne les actions pour lesquelles une vérification est nécessaire (param id) **/
@@ -68,12 +70,12 @@ class Routeur{ /** Controlleur du routeur **/
   private function checkIdValidity(Controller $controller, $id, $class){ /** Verifie la validité de l'id passé en paramètre **/
     if (!(is_numeric($id)) || $id == '0') {
       $error = new Alert('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
-      $controller->renderMessage($error);
+      $this->renderMessage($error);
     } else {
       $entity = $class['withNamespace']::whereId($id, $class['databaseName']);
       if (!$entity) {
         $error = new Alert('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
-        $controller->renderMessage($error);
+        $this->renderError($error);
       } else {
         $action = $_GET['action'];
         $controller->$action();

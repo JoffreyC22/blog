@@ -8,6 +8,9 @@ use \PDO as PDO;
 class User extends Modele{
 
   private $id;
+  private $firstname;
+  private $lastname;
+  private $email;
   private $username;
   private $password;
 
@@ -20,6 +23,18 @@ class User extends Modele{
     return $this->id;
   }
 
+  public function getFirstname(){
+    return $this->firstname;
+  }
+
+  public function getLastname(){
+    return $this->lastname;
+  }
+
+  public function getEmail(){
+    return $this->email;
+  }
+
   public function getUsername(){
     return $this->username;
   }
@@ -30,6 +45,18 @@ class User extends Modele{
 
   public function setId($id){
     $this->id = $id;
+  }
+
+  public function setFirstname($firstname){
+    $this->firstname = $firstname;
+  }
+
+  public function setLastname($lastname){
+    $this->lastname = $lastname;
+  }
+
+  public function setEmail($email){
+    $this->email = $email;
   }
 
   public function setUsername($username){
