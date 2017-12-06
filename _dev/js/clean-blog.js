@@ -168,6 +168,8 @@
           popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
         } else if (data == 'already_exists'){
           popMessage('.alert-danger', 'Cette adresse e-mail est déjà présente en base.');
+        } else if (data == 'passwords_not_maching'){
+          popMessage('.alert-danger', 'Les deux mots de passes ne sont pas identiques.');
         } else {
           popMessage('.alert-success', 'Vous êtes bien enregistré.');
           setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);

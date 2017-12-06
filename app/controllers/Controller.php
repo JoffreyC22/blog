@@ -26,17 +26,20 @@ abstract class Controller{
   }
 
   public function checkRequiredFields(Array $fields){
+    $error = false;
     if (empty($_POST)) {
       return false;
     } else {
       foreach ($fields as $field) {
         if (empty($_POST[$field])) {
-          return false;
-        } else {
-          return true;
+          $error = true;
         }
       }
+      if ($error) {
+        return false;
+      }
     }
+    return true;
   }
 
 }

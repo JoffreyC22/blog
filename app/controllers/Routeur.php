@@ -21,7 +21,7 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
       $controller = new $controllerName();
       $action = $_GET['action'];
       $actions = $this->getActionsPossibles($controller);
-      if ($controllerName == 'App\Controllers\Auth' && Auth::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
+      if ($_GET['controller'] == 'Auth' && Auth::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
         $error = new Alert('danger', 'Vous êtes déjà connecté.');
         $this->renderMessage($error);
       }
@@ -61,7 +61,7 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
     return $methods;
   }
 
-  private function getRoutableControllers(){
+  private function getRoutableControllers(){ /** Declarer chaque controller ici pour pouvoir utiliser ses méthodes en tant que route **/
     $routableControllers = ['Blog', 'Auth'];
     return $routableControllers;
   }

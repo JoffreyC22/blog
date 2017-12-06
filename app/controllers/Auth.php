@@ -19,6 +19,15 @@ class Auth extends Controller{
     return false;
   }
 
+  public static function checkPasswords(){
+    $password = $_POST['password'];
+    $password_confirmation = $_POST['password_confirmation'];
+    if ($password !== $password_confirmation) {
+      return false;
+    }
+    return true;
+  }
+
   public function renderLogin(){
 
     $template = $this->twig->loadTemplate('login.twig');
@@ -36,21 +45,26 @@ class Auth extends Controller{
     if (!$checkRequiredFields) {
       $message = 'not_complete';
     } else {
-      foreach ($_POST as $key => $value) {
-        ${$key} = $value;
-      }
-      $user = User::exists($email);
-      if ($user) {
-        $message = 'already_exists';
+      $validPasswords = self::checkPasswords();
+      if (!$validPasswords) {
+        $message = 'passwords_not_maching';
       } else {
-        $userToRegister = new User();
-        $userToRegister->setFirstname($firstname);
-        $userToRegister->setLastname($lastname);
-        $userToRegister->setEmail($email);
-        $userToRegister->setUsername($username);
-        $userToRegister->setPassword(sha1($password));
-        $userToRegister->save($userToRegister);
-        $message = 'done';
+        foreach ($_POST as $key => $value) {
+          ${$key} = $value;
+        }
+        $user = User::exists($email);
+        if ($user) {
+          $message = 'already_exists';
+        } else {
+          $userToRegister = new User();
+          $userToRegister->setFirstname($firstname);
+          $userToRegister->setLastname($lastname);
+          $userToRegister->setEmail($email);
+          $userToRegister->setUsername($username);
+          $userToRegister->setPassword(sha1($password));
+          $userToRegister->save($userToRegister);
+          $message = 'done';
+        }
       }
     }
     echo $message;
