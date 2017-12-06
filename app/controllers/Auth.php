@@ -18,6 +18,12 @@ class Auth extends Controller{
     echo $template->render([]);
   }
 
+  public function renderRegister(){
+
+    $template = $this->twig->loadTemplate('register.twig');
+    echo $template->render([]);
+  }
+
   public function login(){
     if (!empty($_POST)) {
       $username = $_POST['username'];

@@ -10,12 +10,11 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
 
   public function init(){
 
-    if (!empty($_GET['controller'])) {
+    if (!empty($_GET['controller']) && !empty($_GET['action'])) {
       $controller = __NAMESPACE__ .'\\'.$_GET['controller'];
       $controller = new $controller();
-      if (!empty($_GET['action'])) {
-        $action = $_GET['action'];
-        $actions = $this->getActionsPossibles($controller);
+      $action = $_GET['action'];
+      $actions = $this->getActionsPossibles($controller);
         if (!in_array($action, $actions)) {
           $error = new Alert('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
           $controller->renderMessage($error);
@@ -32,7 +31,6 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
             $controller->$action();
           }
         }
-      }
     } else { /** Si pas de controller, direction home **/
       $blog = new Blog();
       $blog->renderHome();
