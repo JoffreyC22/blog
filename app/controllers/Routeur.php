@@ -6,7 +6,7 @@ use App\Controllers\Blog as Blog;
 use App\Models\Alert as Alert;
 use App\Models\Modele as Modele;
 
-class Routeur{ /** Controlleur du routeur **/
+class Routeur extends Controller{ /** Controlleur du routeur **/
 
   public function init(){
 
@@ -23,7 +23,10 @@ class Routeur{ /** Controlleur du routeur **/
           if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
             $id = $_GET['id'];
             $class = $this->getClass($action);
-            $this->checkIdValidity($controller, $id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+            $validity = $this->checkIdValidity($id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+            if ($validity) {
+              $controller->$action();
+            }
           } else {
             $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
             $controller->$action();
@@ -66,7 +69,7 @@ class Routeur{ /** Controlleur du routeur **/
     return $class;
   }
 
-  private function checkIdValidity(Controller $controller, $id, $class){ /** Verifie la validité de l'id passé en paramètre **/
+  private function checkIdValidity($id, $class){ /** Verifie la validité de l'id passé en paramètre **/
     if (!(is_numeric($id)) || $id == '0') {
       $error = new Alert('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
       $this->renderMessage($error);
@@ -74,10 +77,9 @@ class Routeur{ /** Controlleur du routeur **/
       $entity = $class['withNamespace']::whereId($id, $class['databaseName']);
       if (!$entity) {
         $error = new Alert('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
-        $this->renderError($error);
+        $this->renderMessage($error);
       } else {
-        $action = $_GET['action'];
-        $controller->$action();
+        return true;
       }
     }
   }
