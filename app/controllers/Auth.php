@@ -62,7 +62,7 @@ class Auth extends Controller{
           $userToRegister->setEmail($email);
           $userToRegister->setUsername($username);
           $userToRegister->setPassword(sha1($password));
-          $userToRegister->setIsValid(0);
+          $userToRegister->setValid(0);
           $userToRegister->setToken(User::generateToken(20));
           $userToRegister->save($userToRegister);
           Mail::send($userToRegister);
@@ -120,11 +120,11 @@ class Auth extends Controller{
     $token = $_GET['token'];
     if (User::getUserWithToken($token)) {
       $user = User::getUserWithToken($token);
-      if ($user->getIsValid()) {
+      if ($user->getValid()) {
         $alert = new Alert('danger', 'Ce compte n\'existe pas.');
         $this->renderMessage($alert);
       } else {
-        $user->setIsValid(1);
+        $user->setValid(1);
         $user->updateStatus($user);
         $alert = new Alert('success', 'Votre compte a bien été activé.');
         $this->renderMessage($alert);

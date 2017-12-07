@@ -44,7 +44,7 @@ class User extends Modele{
     return $this->password;
   }
 
-  public function getIsValid(){
+  public function getValid(){
     return $this->isValid;
   }
 
@@ -76,7 +76,7 @@ class User extends Modele{
     $this->password = $password;
   }
 
-  public function setIsValid($isValid){
+  public function setValid($isValid){
     $this->isValid = $isValid;
   }
 
@@ -128,6 +128,6 @@ class User extends Modele{
 
   public function updateStatus(User $user){
     $sql = 'UPDATE users SET is_valid=? WHERE id=?';
-    Database::executeQuery($sql, array($user->getIsValid(), $user->getId()));
+    Database::executeQuery($sql, array($user->getValid(), $user->getId()));
   }
 }

@@ -14,7 +14,9 @@ abstract class Modele{
 
   protected function hydrate(array $object){
     foreach ($object as $key => $value) {
-      if (strpos($key,'_') !== false) {
+      if (substr($key, 0, 3) === 'is_') {
+        $key = str_replace('is_', '', $key);
+      } elseif (strpos($key,'_') !== false) {
         $key = $this->camelize($key);
       }
       $method = 'set'.ucfirst($key);
