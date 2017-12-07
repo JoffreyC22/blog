@@ -117,21 +117,26 @@ class Auth extends Controller{
   }
 
   public function validateAccount(){
-    $token = $_GET['token'];
-    if (User::getUserWithToken($token)) {
-      $user = User::getUserWithToken($token);
-      if ($user->getValid()) {
-        $alert = new Alert('danger', 'Ce compte n\'existe pas.');
-        $this->renderMessage($alert);
-      } else {
-        $user->setValid(1);
-        $user->updateStatus($user);
-        $alert = new Alert('success', 'Votre compte a bien été activé.');
-        $this->renderMessage($alert);
-      }
-    } else {
+    if (empty($_GET['token'])) {
       $alert = new Alert('danger', 'Ce compte n\'existe pas.');
       $this->renderMessage($alert);
+    } else {
+      $token = $_GET['token'];
+      if (User::getUserWithToken($token)) {
+        $user = User::getUserWithToken($token);
+        if ($user->getValid()) {
+          $alert = new Alert('danger', 'Ce compte n\'existe pas.');
+          $this->renderMessage($alert);
+        } else {
+          $user->setValid(1);
+          $user->updateStatus($user);
+          $alert = new Alert('success', 'Votre compte a bien été activé.');
+          $this->renderMessage($alert);
+        }
+      } else {
+        $alert = new Alert('danger', 'Ce compte n\'existe pas.');
+        $this->renderMessage($alert);
+      }
     }
   }
 }
