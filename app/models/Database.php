@@ -9,7 +9,7 @@ class Database extends \PDO {
     public static function connect() {
         if (!isset(self::$instance)) {
             try {
-                self::$instance = new \PDO('mysql:dbname='.Configuration::_DB_NAME_.';host='.Configuration::_DB_HOST_, Configuration::_DB_USER_, Configuration::_DB_PASSWORD_,array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8', \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
+                self::$instance = new \PDO('mysql:dbname='.Configuration::DB_NAME.';host='.Configuration::DB_HOST, Configuration::DB_USER, Configuration::DB_PASSWORD,array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8', \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
             }
             catch (\PDOException $e) {
                 echo 'Connection à MySQL impossible : ', $e->getMessage();
