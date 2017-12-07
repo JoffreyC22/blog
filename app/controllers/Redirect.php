@@ -7,10 +7,10 @@ use App\Models\Configuration as Configuration;
 class Redirect{
 
   public static function action($action){
-    header('Location:'.Configuration::__BASE_URL__.'action='.$action);
+    header('Location:'.Configuration::_BASE_URL_.'action='.$action);
   }
 
   public static function home(){
-    header('Location:'.Configuration::__BASE_URL__);
+    header('Location:'.Configuration::_BASE_URL_);
   }
 }
