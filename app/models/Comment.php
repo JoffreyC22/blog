@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Database as Database;
 use \PDO as PDO;
 
 class Comment extends Modele{

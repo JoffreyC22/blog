@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Blog as Blog;
-use App\Controllers\Auth as Auth;
 use App\Models\Alert as Alert;
 use App\Models\Modele as Modele;
 

@@ -2,7 +2,7 @@
 
 use App\Controllers\Routeur as Routeur;
 
-require_once('./config.php');
+require_once('./boot.php');
 
 $routeur = new Routeur();
 $routeur->init();

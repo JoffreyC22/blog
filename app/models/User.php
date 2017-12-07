@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Database as Database;
 use \PDO as PDO;
 
 class User extends Modele{
@@ -13,6 +12,8 @@ class User extends Modele{
   private $email;
   private $username;
   private $password;
+  private $isValid;
+  private $token;
 
   public function __construct($valeurs = array())
   {
@@ -43,6 +44,14 @@ class User extends Modele{
     return $this->password;
   }
 
+  public function getIsValid(){
+    return $this->isValid;
+  }
+
+  public function getToken(){
+    return $this->token;
+  }
+
   public function setId($id){
     $this->id = $id;
   }
@@ -67,6 +76,14 @@ class User extends Modele{
     $this->password = $password;
   }
 
+  public function setIsValid($isValid){
+    $this->isValid = $isValid;
+  }
+
+  public function setToken($token){
+    $this->token = $token;
+  }
+
   public static function getFirst($email, $password){ /** Retourne l'utilisateur en fonction de l'e-mail et du mot de passe **/
     $user = null;
     $sql = 'SELECT * FROM users WHERE email=? AND password=?';
@@ -87,9 +104,30 @@ class User extends Modele{
     return ($data !== false) ? $user : false;
   }
 
+  public static function getUserWithToken($token){ /** Retourne l'utilisateur correspondant au token **/
+    $user = null;
+    $sql = 'SELECT * FROM users WHERE token=?';
+    $db = Database::executeQuery($sql, array($token));
+    $data = $db->fetch(PDO::FETCH_ASSOC);
+    $user = new User($data);
+
+    return ($data !== false) ? $user : false;
+  }
+
+  public static function generateToken($length){ /** Génération d'un token pour valider le compte **/
+
+    $token = bin2hex(random_bytes($length));
+    return $token;
+  }
+
   public function save(User $user){
 
-    $sql = 'INSERT INTO users (firstname,lastname,email,username,password) VALUES (?, ?, ?, ?, ?)';
-    Database::executeQuery($sql, array($user->firstname, $user->lastname, $user->email, $user->username, $user->password));
+    $sql = 'INSERT INTO users (firstname,lastname,email,username,password,is_valid,token) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    Database::executeQuery($sql, array($user->firstname, $user->lastname, $user->email, $user->username, $user->password, $user->isValid, $user->token));
+  }
+
+  public function updateStatus(User $user){
+    $sql = 'UPDATE users SET is_valid=? WHERE id=?';
+    Database::executeQuery($sql, array($user->getIsValid(), $user->getId()));
   }
 }

@@ -144,6 +144,8 @@
           popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
         } else if (data == 'not_existing'){
           popMessage('.alert-danger', 'Le couple e-mail/mot de passe est incorrect');
+        } else if (data == 'not_confirmed'){
+          popMessage('.alert-danger', 'Vous n\'avez pas confirmé votre compte.');
         } else {
           popMessage('.alert-success', 'Bienvenue '+data+' !');
           setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
