@@ -141,7 +141,7 @@
       url: custom_url,
       success: function(data){
         if (data == 'not_complete') {
-          popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
+          popMessage('.alert-danger', 'Valeurs incorrectes.');
         } else if (data == 'not_existing'){
           popMessage('.alert-danger', 'Le couple e-mail/mot de passe est incorrect');
         } else if (data == 'not_confirmed'){
@@ -167,7 +167,7 @@
       url: custom_url,
       success: function(data){
         if (data == 'not_complete') {
-          popMessage('.alert-danger', 'Il manque un ou plusieurs champs.');
+          popMessage('.alert-danger', 'Valeurs incorrectes.');
         } else if (data == 'already_exists'){
           popMessage('.alert-danger', 'Cette adresse e-mail est déjà présente en base.');
         } else if (data == 'passwords_not_maching'){

@@ -87,7 +87,7 @@ class Auth extends Controller{
         }
         $user = User::getFirst($email, $password);
         if ($user) {
-          if (!$user->getIsValid()) {
+          if (!$user->getValid()) {
             $message = 'not_confirmed';
           } else {
             $_SESSION['user']['id'] = $user->getId();
