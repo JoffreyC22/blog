@@ -14,29 +14,30 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
       if (!in_array($_GET['controller'], $routableControllers)) { /** Erreur si le controller demandé n'existe pas **/
         $error = new Alert('danger', 'Cette page n\'existe pas.');
         $this->renderMessage($error);
-      }
-      $controllerName = __NAMESPACE__ .'\\'.$_GET['controller'];
-      $controller = new $controllerName();
-      $action = $_GET['action'];
-      $actions = $this->getActionsPossibles($controller);
-      if ($_GET['controller'] == 'Auth' && Auth::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
-        $error = new Alert('danger', 'Vous êtes déjà connecté.');
-        $this->renderMessage($error);
-      }
-      if (!in_array($action, $actions)) {
-        $error = new Alert('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
-        $this->renderMessage($error);
       } else {
-        if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
-          $id = $_GET['id'];
-          $class = $this->getClass($action);
-          $validity = $this->checkIdValidity($id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
-          if ($validity) {
+        $controllerName = __NAMESPACE__ .'\\'.$_GET['controller'];
+        $controller = new $controllerName();
+        $action = $_GET['action'];
+        $actions = $this->getActionsPossibles($controller);
+        if ($_GET['controller'] == 'Auth' && Auth::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
+          $error = new Alert('danger', 'Vous êtes déjà connecté.');
+          $this->renderMessage($error);
+        }
+        if (!in_array($action, $actions)) {
+          $error = new Alert('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
+          $this->renderMessage($error);
+        } else {
+          if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
+            $id = $_GET['id'];
+            $class = $this->getClass($action);
+            $validity = $this->checkIdValidity($id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+            if ($validity) {
+              $controller->$action();
+            }
+          } else {
+            $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
             $controller->$action();
           }
-        } else {
-          $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
-          $controller->$action();
         }
       }
     } else { /** Si pas de controller, direction home **/
@@ -60,7 +61,7 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
   }
 
   private function getRoutableControllers(){ /** Declarer chaque controller ici pour pouvoir utiliser ses méthodes en tant que route **/
-    $routableControllers = ['Blog', 'Auth'];
+    $routableControllers = ['Blog', 'Auth', 'Admin'];
     return $routableControllers;
   }
 

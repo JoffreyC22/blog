@@ -19,6 +19,15 @@ class Auth extends Controller{
     return false;
   }
 
+  public static function getCurrentUser(){
+    $data = null;
+    if (isset($_SESSION['user'])) {
+      $data = $_SESSION['user'];
+      $user = new User($data);
+    }
+    return ($data !== null) ? $user : '';
+  }
+
   public static function checkPasswords(){
     $password = $_POST['password'];
     $password_confirmation = $_POST['password_confirmation'];
