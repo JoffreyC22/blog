@@ -12,8 +12,10 @@
               </p>
               <div class="flex-container post-details">
                 <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
-                <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
-                <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
+                {% if session.user %}>
+                  <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
+                  <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
+                {% endif %}
                 {% if comments|length > 0 %}
                   <p><a href="#" title="Voir les commentaires pour ce post" class="show-comments">({{ comments|length }}) commentaire(s)</a></p>
                 {% endif %}
@@ -33,21 +35,23 @@
         </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="index.php?controller=Blog&action=commentPost&id={{ post.id }}" method="post">
-        <div class="form-group">
-          <label for="content">Ajouter un commentaire *</label>
-          <textarea class="form-control" name="content" id="content" rows="8" cols="80" required></textarea>
+  {% if session.user %}>
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <form action="index.php?controller=Blog&action=commentPost&id={{ post.id }}" method="post">
+          <div class="form-group">
+            <label for="content">Ajouter un commentaire *</label>
+            <textarea class="form-control" name="content" id="content" rows="8" cols="80" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary float-right" id="add-comment">Commenter</button>
+        </form>
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
         </div>
-        <button type="submit" class="btn btn-primary float-right" id="add-comment">Commenter</button>
-      </form>
-      <!-- Pager -->
-      <div class="clearfix">
-        <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
       </div>
     </div>
-  </div>
+  {% endif %}
 </div>
 
 {% endblock %}

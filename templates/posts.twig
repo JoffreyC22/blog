@@ -14,8 +14,10 @@
             </p>
             <div class="flex-container post-details">
               <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
-              <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
-              <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
+              {% if session.user %}>
+                <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
+                <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
+              {% endif %}
             </div>
             <hr>
           </div>
