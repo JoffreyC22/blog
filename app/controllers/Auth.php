@@ -64,6 +64,7 @@ class Auth extends Controller{
           $userToRegister->setPassword(sha1($password));
           $userToRegister->setValid(0);
           $userToRegister->setToken(User::generateToken(20));
+          $userToRegister->setRole('user');
           $userToRegister->save($userToRegister);
           Mail::send($userToRegister);
           $message = 'done';
@@ -96,6 +97,8 @@ class Auth extends Controller{
             $_SESSION['user']['email'] = $user->getEmail();
             $_SESSION['user']['username'] = $user->getUsername();
             $_SESSION['user']['password'] = $user->getPassword();
+            $_SESSION['user']['token'] = $user->getToken();
+            $_SESSION['user']['role'] = $user->getRole();
             $message = $user->getFirstname();
           }
         } else {

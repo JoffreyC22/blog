@@ -16,7 +16,7 @@ class Mail{
     $headers .= 'MIME-Version: 1.0'.$eol;
     $headers .= "Content-Type: multipart/related; boundary=\"".$mime_boundary."\"".$eol;
     $content  = 'Bonjour,'.$eol;
-    $content .= 'Veuillez confirmer votre inscription sur le blog en cliquant sur ce lien : '.Configuration::__BASE_URL__.'controller=Auth&action=validateAccount&token='.$user->getToken() .$eol;
+    $content .= 'Veuillez confirmer votre inscription sur le blog en cliquant sur ce lien : '.Configuration::BASE_URL.'controller=Auth&action=validateAccount&token='.$user->getToken() .$eol;
     $content .= 'Cordialement,'.$eol;
     $content .= 'Joffrey Capitaine.'.$eol;
 

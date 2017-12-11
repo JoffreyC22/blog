@@ -34,9 +34,9 @@ abstract class Controller{
         if (empty($_POST[$field])) {
           $error = true;
         } else {
-          if ($field == 'password' || $field == 'password_confirmation' && strlen($field) <= 6) {
+          if (($field == 'password' || $field == 'password_confirmation') && strlen($field) < 6) {
             $error = true;
-          } elseif (strlen($field) <= 2) {
+          } elseif (strlen($field) < 2) {
             $error = true;
           }
         }

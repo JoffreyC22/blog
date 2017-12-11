@@ -14,6 +14,7 @@ class User extends Modele{
   private $password;
   private $isValid;
   private $token;
+  private $role;
 
   public function __construct($valeurs = array())
   {
@@ -52,6 +53,10 @@ class User extends Modele{
     return $this->token;
   }
 
+  public function getRole(){
+    return $this->role;
+  }
+
   public function setId($id){
     $this->id = $id;
   }
@@ -82,6 +87,10 @@ class User extends Modele{
 
   public function setToken($token){
     $this->token = $token;
+  }
+
+  public function setRole($role){
+    $this->role = $role;
   }
 
   public static function getFirst($email, $password){ /** Retourne l'utilisateur en fonction de l'e-mail et du mot de passe **/
@@ -122,8 +131,8 @@ class User extends Modele{
 
   public function save(User $user){
 
-    $sql = 'INSERT INTO users (firstname,lastname,email,username,password,is_valid,token) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    Database::executeQuery($sql, array($user->firstname, $user->lastname, $user->email, $user->username, $user->password, $user->isValid, $user->token));
+    $sql = 'INSERT INTO users (firstname,lastname,email,username,password,is_valid,token,role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    Database::executeQuery($sql, array($user->firstname, $user->lastname, $user->email, $user->username, $user->password, $user->isValid, $user->token, $user->role));
   }
 
   public function updateStatus(User $user){
