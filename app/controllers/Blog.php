@@ -11,6 +11,17 @@ class Blog extends Controller{ /** Controlleur du blog **/
     parent::__construct();
   }
 
+  public static function getRegisteredUsersActions(){
+    $registeredUsersActions = [];
+    $actions = get_class_methods('App\Controllers\Blog');
+    foreach ($actions as $action) {
+      if (stristr($action, 'edit') || stristr($action, 'delete') || stristr($action, 'comment') || stristr($action, 'add')) {
+        $registeredUsersActions[] = $action;
+      }
+    }
+    return $registeredUsersActions;
+  }
+
   public function renderHome() { /** Home blog **/
     $posts = Post::all('posts');
 
@@ -99,8 +110,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
     foreach ($comments as $comment) {
       $comment->delete($comment);
     }
-    $delete = $post->delete($post);
-    if (!$delete) {
+    if ($post->delete($post) == null) {
       $message = 'done';
     } else {
       $message = 'echec';
@@ -110,9 +120,10 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function commentPost(){ /** Commenter un post **/
     $post_id = $_GET['id'];
+    $user = Auth::getCurrentUser();
 
     if (!empty($_POST)){
-      $author = $_POST['author'];
+      $author = $user->username;
       $content = $_POST['content'];
       if (empty($author) || empty($content)) {
         $message = 'not_complete';

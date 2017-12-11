@@ -27,15 +27,24 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
           $error = new Alert('danger', 'Cette action n\'existe pas.'); /** Erreur si l'action demandée n'existe pas **/
           $this->renderMessage($error);
         } else {
-          if ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
-            $id = $_GET['id'];
-            $class = $this->getClass($action);
-            $validity = $this->checkIdValidity($id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
-            if ($validity) {
+          if ($_GET['controller'] == 'Blog') {
+            $registeredUsersActions = Blog::getRegisteredUsersActions();
+            if (in_array($action, $registeredUsersActions) && !Auth::isLogged()) {
+              $error = new Alert('danger', 'Vous devez être connecté pour effectuer cette action');
+              $this->renderMessage($error);
+            } elseif ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
+              $id = $_GET['id'];
+              $class = $this->getClass($action);
+              $validity = $this->checkIdValidity($id, $class); /** On regarde si cet id est bien numérique et qu'il correspond bien a l'entité demandée **/
+              if ($validity) {
+                $controller->$action();
+              }
+            } else {
+              $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
               $controller->$action();
             }
           } else {
-            $action = $_GET['action']; /** Si pas d'id dans la requete, on renvoit directement vers l'action **/
+            $action = $_GET['action'];
             $controller->$action();
           }
         }

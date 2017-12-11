@@ -62,8 +62,10 @@
       success: function(data){
         if (data == 'not_complete') {
           popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
-        } else {
+        } else if (data == 'done') {
           popMessage('.alert-success', 'Commentaire enregistré avec succès.');
+        } else {
+          popMessage('.alert-danger', 'Le commentaire n\'a pas pu être posté.');
         }
       },
       error: function(xhr){
@@ -102,9 +104,11 @@
       success: function(data){
         if (data == 'echec') {
           popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
-        } else {
+        } else if (data == 'done') {
           popMessage('.alert-success', 'Post supprimé avec succès.');
           setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
+        } else {
+          popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
         }
       },
       error: function(xhr){
@@ -120,9 +124,11 @@
       success: function(data){
         if (data == 'echec') {
           popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
-        } else {
+        } else if (data == 'done') {
           popMessage('.alert-success', 'Commentaire supprimé avec succès.');
           setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
+        } else {
+          popMessage('.alert-danger', 'Le commentaire n\'a pas pu être supprimé.');
         }
       },
       error: function(xhr){
