@@ -123,7 +123,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
     $user = Auth::getCurrentUser();
 
     if (!empty($_POST)){
-      $author = $user->username;
+      $author = $user->getUsername();
       $content = $_POST['content'];
       if (empty($author) || empty($content)) {
         $message = 'not_complete';

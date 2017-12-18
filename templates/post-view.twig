@@ -12,7 +12,7 @@
               </p>
               <div class="flex-container post-details">
                 <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
-                {% if session.user %}>
+                {% if session.user %}
                   <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
                   <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
                 {% endif %}
@@ -35,7 +35,7 @@
         </div>
     </div>
   </div>
-  {% if session.user %}>
+  {% if session.user %}
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
           <form action="index.php?controller=Blog&action=commentPost&id={{ post.id }}" method="post">

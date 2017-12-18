@@ -10,6 +10,7 @@ class Post extends Modele{
   private $title;
   private $content;
   private $createdAt;
+  private $userId;
 
   public function __construct($valeurs = array())
   {
@@ -32,6 +33,10 @@ class Post extends Modele{
     return $this->createdAt;
   }
 
+  public function getUserId(){
+    return $this->userId;
+  }
+
   public function setId($id){
     $this->id = $id;
   }
@@ -46,6 +51,18 @@ class Post extends Modele{
 
   public function setCreatedAt($createdAt){
     $this->createdAt = $createdAt;
+  }
+
+  public function setUserId($userId){
+    $this->userId = $userId;
+  }
+
+  public function getAuthor(){
+    $author = null;
+    $sql = "SELECT username FROM users WHERE id=?";
+    $db = Database::executeQuery($sql, array($this->getUserId()));
+    $data = $db->fetchColumn();
+    return ($data !== false) ? $data : false;
   }
 
   public function comments($post_id){
