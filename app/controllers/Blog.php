@@ -135,33 +135,47 @@ class Blog extends Controller{ /** Controlleur du blog **/
   public function commentPost(){ /** Commenter un post **/
     $post_id = $_GET['id'];
     $user = Auth::getCurrentUser();
-
-    if (!empty($_POST)){
-      $author = $user->getUsername();
-      $content = $_POST['content'];
-      if (empty($author) || empty($content)) {
-        $message = 'not_complete';
-      } else {
-        $comment = new Comment();
-        $comment->setAuthor($author);
-        $comment->setContent($content);
-        $comment->save($comment, $post_id);
-        $message = 'done';
-      }
+    if (!$user) {
+      $message = 'wrong_permissions';
       echo $message;
+    } else {
+      if (!empty($_POST)){
+        $author = $user->getId();
+        $content = $_POST['content'];
+        if (empty($author) || empty($content)) {
+          $message = 'not_complete';
+        } else {
+          $comment = new Comment();
+          $comment->setUserId($author);
+          $comment->setContent($content);
+          $comment->save($comment, $post_id);
+          $message = 'done';
+        }
+        echo $message;
+      }
     }
   }
 
   public function deleteComment(){ /** Supprimer un commentaire **/
-    $comment_id = $_GET['id'];
-    $comment = Comment::whereId($comment_id, 'comments');
-    $delete = $comment->delete($comment);
-    if (!$delete) {
-      $message = 'done';
+    $user = Auth::getCurrentUser();
+    if (!$user) {
+      $message = 'wrong_permissions';
+      echo $message;
     } else {
-      $message = 'echec';
+      $comment_id = $_GET['id'];
+      $comment = Comment::whereId($comment_id, 'comments');
+      if ($comment->getUserId() != $user->getId()) {
+        $message = 'wrong_permissions';
+      } else {
+        $delete = $comment->delete($comment);
+        if (!$delete) {
+          $message = 'done';
+        } else {
+          $message = 'echec';
+        }
+      }
+      echo $message;
     }
-    echo $message;
   }
 
 

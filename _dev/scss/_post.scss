@@ -35,6 +35,7 @@
   }
 
   .post-details{
+    flex-wrap: wrap;
     p{
       margin: 0;
     }
@@ -48,6 +49,7 @@
     margin: 4px;
   }
 }
+
   @media only screen and (min-width: 768px) {
     > a {
       > .post-title {
@@ -55,4 +57,26 @@
       }
     }
   }
+}
+
+.post-moderation{
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 10px;
+  p{
+    margin: 0;
+  }
+}
+
+.post-comments{
+  justify-content: space-between;
+}
+
+.valid-icon{
+  color: green;
+}
+
+.refuse-icon{
+  color: red;
 }

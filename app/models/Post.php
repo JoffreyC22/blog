@@ -76,7 +76,17 @@ class Post extends Modele{
   public function comments($post_id){
 
     $comments = null;
-    $sql = 'SELECT * FROM comments WHERE post_id=?';
+    $sql = 'SELECT * FROM comments WHERE post_id=? and valid=1';
+    $db = Database::executeQuery($sql, array($post_id));
+    while ($data = $db->fetch(PDO::FETCH_ASSOC)) {
+      $comments[] = new Comment($data);
+    }
+    return $comments;
+  }
+
+  public function commentsToValidate($post_id){
+    $comments = null;
+    $sql = 'SELECT * FROM comments WHERE post_id=? and valid=0';
     $db = Database::executeQuery($sql, array($post_id));
     while ($data = $db->fetch(PDO::FETCH_ASSOC)) {
       $comments[] = new Comment($data);

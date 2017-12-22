@@ -1,0 +1,34 @@
+{% extends "layout.twig" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-10 mx-auto">
+      <h1 class="uppercase text-center">Administration - Commentaires</h1>
+      <div class="row">
+        {% for post in posts %}
+          <div class="col-md-6">
+            <div class="post-moderation">
+              <h3 class="uppercase text-center">Titre : {{ post.title }}</h3>
+              {% if post.commentsToValidate(post.id)|length > 0 %}
+                {% for comment in post.commentsToValidate(post.id) %}
+                  <div class="post-comments flex-container">
+                    <p>{{ comment.content|slice(0, 50) }}</p>
+                    <div class="actions-icons">
+                      <a href="index.php?controller=Admin&action=validateComment&id={{ comment.id }}"><i class="fa fa-check valid-icon"></i></a>
+                      <a class="deleteComment" href="index.php?controller=Admin&action=deleteComment&id={{ comment.id }}"><i class="fa fa-close refuse-icon"></i></a>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <p>Pas de commentaires à valider sur ce post.</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

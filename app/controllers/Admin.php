@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\User as User;
 use App\Models\Alert as Alert;
+use App\Models\Post as Post;
+use App\Models\Comment as Comment;
 
 class Admin extends Controller{
 
@@ -19,7 +21,43 @@ class Admin extends Controller{
   public function renderAdmin(){
 
     $template = $this->twig->loadTemplate('admin.twig');
-    echo $template->render([]);
+    $posts = Post::all('posts');
+    echo $template->render([
+      'posts' => $posts
+    ]);
+  }
+
+  public function deleteComment(){ /** Supprimer un commentaire **/
+    $user = Auth::getCurrentUser();
+    if (!$user || $user->getRole() != 'admin') {
+      $message = 'wrong_permissions';
+      echo $message;
+    } else {
+      $comment_id = $_GET['id'];
+      $comment = Comment::whereId($comment_id, 'comments');
+      $delete = $comment->delete($comment);
+      if (!$delete) {
+        $message = 'done';
+      } else {
+        $message = 'echec';
+      }
+      echo $message;
+    }
+  }
+
+  public function validateComment(){ /** Valider un commentaire **/
+    $user = Auth::getCurrentUser();
+    if (!$user || $user->getRole() != 'admin') {
+      $message = 'wrong_permissions';
+      echo $message;
+    } else {
+      $comment_id = $_GET['id'];
+      $comment = Comment::whereId($comment_id, 'comments');
+      $comment->setValid(1);
+      $comment->updateStatus($comment);
+      $message = 'done';
+      echo $message;
+    }
   }
 
 

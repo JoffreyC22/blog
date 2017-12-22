@@ -63,7 +63,9 @@
         if (data == 'not_complete') {
           popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
         } else if (data == 'done') {
-          popMessage('.alert-success', 'Commentaire enregistré avec succès.');
+          popMessage('.alert-success', 'Votre commentaire a été enregistré et sera soumis à validation.');
+        } else if (data == 'wrong_permissions') {
+          popMessage('.alert-success', 'Vous devez être connecté pour commenter un post.');
         } else {
           popMessage('.alert-danger', 'Le commentaire n\'a pas pu être posté.');
         }

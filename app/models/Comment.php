@@ -7,10 +7,11 @@ use \PDO as PDO;
 class Comment extends Modele{
 
   private $id;
-  private $author;
   private $content;
   private $createdAt;
   private $postId;
+  private $userId;
+  private $valid;
 
   public function __construct($valeurs = array())
   {
@@ -19,10 +20,6 @@ class Comment extends Modele{
 
   public function getId(){
     return $this->id;
-  }
-
-  public function getAuthor(){
-    return $this->author;
   }
 
   public function getContent(){
@@ -37,12 +34,16 @@ class Comment extends Modele{
     return $this->postId;
   }
 
-  public function setId($id){
-    $this->id = $id;
+  public function getUserId(){
+    return $this->userId;
   }
 
-  public function setAuthor($author){
-    $this->author = $author;
+  public function getValid(){
+    return $this->valid;
+  }
+
+  public function setId($id){
+    $this->id = $id;
   }
 
   public function setContent($content){
@@ -57,11 +58,31 @@ class Comment extends Modele{
     $this->postId = $postId;
   }
 
+  public function setUserId($userId){
+    $this->userId = $userId;
+  }
+
+  public function setValid($valid){
+    $this->valid = $valid;
+  }
+
+  public function updateStatus(Comment $comment){
+    $sql = 'UPDATE comments SET valid=? WHERE id=?';
+    Database::executeQuery($sql, array($comment->getValid(), $comment->getId()));
+  }
+
+  public function getAuthor(){
+    $sql = "SELECT username FROM users WHERE id=?";
+    $db = Database::executeQuery($sql, array($this->getUserId()));
+    $data = $db->fetchColumn();
+    return ($data !== false) ? $data : false;
+  }
+
   public function save(Comment $comment, $post_id){
 
-    $sql = 'INSERT INTO comments (author,content,created_at,post_id) VALUES (?, ?, ?, ?)';
+    $sql = 'INSERT INTO comments (content,created_at,post_id,user_id,valid) VALUES (?, ?, ?, ?, ?)';
     $date = date('Y-m-d H:i:s');
-    Database::executeQuery($sql, array($comment->getAuthor(), $comment->getContent(), $date, $post_id));
+    Database::executeQuery($sql, array($comment->getContent(), $date, $post_id, $comment->getUserId(), 0));
   }
 
   public function delete(Comment $comment){
