@@ -67,7 +67,6 @@ class Post extends Modele{
   }
 
   public function getAuthor(){
-    $author = null;
     $sql = "SELECT username FROM users WHERE id=?";
     $db = Database::executeQuery($sql, array($this->getUserId()));
     $data = $db->fetchColumn();

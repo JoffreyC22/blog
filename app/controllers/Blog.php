@@ -123,7 +123,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
           $comment->delete($comment);
         }
       }
-      if ($post->delete($post) == null) {
+      if ($post->delete($post) === null) {
         $message = 'done';
       } else {
         $message = 'echec';
