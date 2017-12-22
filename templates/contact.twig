@@ -1,0 +1,28 @@
+{% extends "layout.twig" %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="uppercase text-center">Me contacter</h1>
+      <form action="index.php?controller=Contact&action=contact" method="post">
+      {{ block('alert') }}
+        <div class="form-group">
+          <label for="email">E-mail :</label>
+          <input type="email" name="email" class="form-control" id="email"  required>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe :</label>
+          <input type="password" class="form-control" name="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary float-right" id="login">Connexion</button>
+      </form>
+      <!-- Pager -->
+      <div class="clearfix">
+        <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -70,7 +70,7 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
   }
 
   private function getRoutableControllers(){ /** Declarer chaque controller ici pour pouvoir utiliser ses méthodes en tant que route **/
-    $routableControllers = ['Blog', 'Auth', 'Admin'];
+    $routableControllers = ['Blog', 'Auth', 'Admin', 'Contact'];
     return $routableControllers;
   }
 

@@ -15,8 +15,12 @@
                   {{ post.content }}
                 </p>
                 <p class="post-meta">Posté par
-                  <a href="#">{{ post.getAuthor }}</a>
-                  le {{ post.createdAt }}</p>
+                  {{ post.getAuthor }}
+                  le {{ post.createdAt }}
+                  {% if post.createdAt != post.updatedAt %}
+                  (édité le {{ post.updatedAt }})
+                  {% endif %}
+                </p>
             </div>
             <hr>
           {% endfor %}

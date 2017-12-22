@@ -10,6 +10,7 @@ class Post extends Modele{
   private $title;
   private $content;
   private $createdAt;
+  private $updatedAt;
   private $userId;
 
   public function __construct($valeurs = array())
@@ -33,6 +34,10 @@ class Post extends Modele{
     return $this->createdAt;
   }
 
+  public function getUpdatedAt(){
+    return $this->updatedAt;
+  }
+
   public function getUserId(){
     return $this->userId;
   }
@@ -51,6 +56,10 @@ class Post extends Modele{
 
   public function setCreatedAt($createdAt){
     $this->createdAt = $createdAt;
+  }
+
+  public function setUpdatedAt($updatedAt){
+    $this->updatedAt = $updatedAt;
   }
 
   public function setUserId($userId){
@@ -78,16 +87,17 @@ class Post extends Modele{
 
   public function save(Post $post){
 
-    $sql = 'INSERT INTO posts (title,content,created_at) VALUES (?, ?, ?)';
+    $sql = 'INSERT INTO posts (title,content,created_at,updated_at,user_id) VALUES (?, ?, ?, ?, ?)';
     $date = date('Y-m-d H:i:s');
-    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date));
+    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date, $date, $post->getUserId()));
   }
 
   public function update(Post $post){
 
     $post_id = $post->getId();
-    $sql = 'UPDATE posts SET title=?, content=? WHERE id=?';
-    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $post_id));
+    $sql = 'UPDATE posts SET title=?, content=?, updated_at=? WHERE id=?';
+    $date = date('Y-m-d H:i:s');
+    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date, $post_id));
   }
 
   public function delete(Post $post){

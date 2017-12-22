@@ -86,6 +86,8 @@
       success: function(data){
         if (data == 'not_complete') {
           popMessage('.alert-danger', 'Un ou plusieurs champs sont manquants.');
+        } else if (data == 'wrong_permissions') {
+          popMessage('.alert-danger', 'Vous n\'avez pas les droits requis.');
         } else {
           popMessage('.alert-success', 'Post enregistré avec succès.');
         }
@@ -107,6 +109,8 @@
         } else if (data == 'done') {
           popMessage('.alert-success', 'Post supprimé avec succès.');
           setTimeout("window.location='/index.php?controller=Blog&action=renderHome'", 2000);
+        } else if (data == 'wrong_permissions') {
+          popMessage('.alert-danger', 'Vous n\'avez pas les droits requis.');
         } else {
           popMessage('.alert-danger', 'Le post n\'a pas pu être supprimé.');
         }

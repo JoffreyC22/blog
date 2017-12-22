@@ -13,11 +13,11 @@
               {{ post.content }}
             </p>
             <div class="flex-container post-details">
-              <p class="post-meta">Posté par <a href="#">Joffrey</a> le {{ post.createdAt }}</p>
-              {% if session.user %}
-                <p><a href="/index.php?controller=Blog&action=editPostView&id={{ post.id }}">Editer</a></p>
-                <p><a href="/index.php?controller=Blog&action=deletePost&id={{ post.id }}" class="deletePost">Supprimer</a></p>
-              {% endif %}
+              <p class="post-meta">Posté par {{ post.getAuthor }} le {{ post.createdAt }}
+                {% if post.createdAt != post.updatedAt %}
+                (édité le {{ post.updatedAt }})
+                {% endif %}
+              </p>
             </div>
             <hr>
           </div>

@@ -67,6 +67,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
         $post = new Post();
         $post->setTitle($_POST['title']);
         $post->setContent($_POST['content']);
+        $post->setUserId(Auth::getCurrentUser()->getId());
         $post->save($post);
         $message = 'done';
       }
@@ -85,37 +86,50 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function editPost(){ /** Action éditer un post **/
+    $loggedUser = Auth::getCurrentUser();
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id, 'posts');
-
-    if (!empty($_POST)){
-      $title = $_POST['title'];
-      $content = $_POST['content'];
-      if (empty($title) || empty($content)) {
-        $message = 'not_complete';
-      } else {
-        $post->setTitle($_POST['title']);
-        $post->setContent($_POST['content']);
-        $post->update($post);
-        $message = 'done';
-      }
+    if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
+      $message = 'wrong_permissions';
       echo $message;
+    } else {
+      if (!empty($_POST)){
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        if (empty($title) || empty($content)) {
+          $message = 'not_complete';
+        } else {
+          $post->setTitle($_POST['title']);
+          $post->setContent($_POST['content']);
+          $post->update($post);
+          $message = 'done';
+        }
+        echo $message;
+      }
     }
   }
 
   public function deletePost(){ /** Supprimer un post **/
+    $loggedUser = Auth::getCurrentUser();
     $post_id = $_GET['id'];
     $post = Post::whereId($post_id, 'posts');
-    $comments = $post->comments($post_id);
-    foreach ($comments as $comment) {
-      $comment->delete($comment);
-    }
-    if ($post->delete($post) == null) {
-      $message = 'done';
+    if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
+      $message = 'wrong_permissions';
+      echo $message;
     } else {
-      $message = 'echec';
+      $comments = $post->comments($post_id);
+      if (!empty($comments)) {
+        foreach ($comments as $comment) {
+          $comment->delete($comment);
+        }
+      }
+      if ($post->delete($post) == null) {
+        $message = 'done';
+      } else {
+        $message = 'echec';
+      }
+      echo $message;
     }
-    echo $message;
   }
 
   public function commentPost(){ /** Commenter un post **/
