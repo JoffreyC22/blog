@@ -192,6 +192,28 @@
     });
   });
 
+  $('#contact').click(function(e){
+    e.preventDefault();
+    var form = $(this).closest('form');
+    var form_data = form.serialize()
+    var custom_url = form.attr('action');
+    $.ajax({
+      type: 'POST',
+      data: form_data,
+      url: custom_url,
+      success: function(data){
+        if (data == 'not_complete') {
+          popMessage('.alert-danger', 'Les champs sont tous obligatoires.');
+        } else {
+          popMessage('.alert-success', 'Le message a bien été envoyé.');
+          setTimeout("window.location='/index.php'", 2000);
+        }
+      },
+      error: function(xhr){
+      }
+    });
+  });
+
 
 })(jQuery); // End of use strict
 

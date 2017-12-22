@@ -17,4 +17,18 @@ class Contact extends Controller{
     echo $template->render([]);
   }
 
+  public function contact(){
+    $checkRequiredFields = $this->checkRequiredFields(['firstname', 'lastname', 'email', 'message']);
+    if (!$checkRequiredFields) {
+      $message = 'not_complete';
+    } else {
+      foreach ($_POST as $key => $value) {
+        ${$key} = $value;
+      }
+      Mail::sendMe($firstname, $lastname, $email, $message);
+      $message = 'done';
+    }
+    echo $message;
+  }
+
 }
