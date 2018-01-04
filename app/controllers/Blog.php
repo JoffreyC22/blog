@@ -70,7 +70,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
         $post->setTitle($_POST['title']);
         $post->setContent($_POST['content']);
         $post->setUserId(Auth::getCurrentUser()->getId());
-        $post->save($post);
+        PostManager::save($post);
         $message = 'done';
       }
       echo $message;
@@ -103,7 +103,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
         } else {
           $post->setTitle($_POST['title']);
           $post->setContent($_POST['content']);
-          $post->update($post);
+          PostManager::update($post);
           $message = 'done';
         }
         echo $message;
@@ -125,7 +125,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
           CommentManager::delete($comment);
         }
       }
-      if ($post->delete($post) === null) {
+      if (PostManager::delete($post) === null) {
         $message = 'done';
       } else {
         $message = 'echec';
