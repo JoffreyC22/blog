@@ -6,6 +6,7 @@ use App\Models\User as User;
 use App\Models\Alert as Alert;
 use App\Models\Post as Post;
 use App\Models\Comment as Comment;
+use App\Managers\CommentManager as CommentManager;
 
 class Admin extends Controller{
 
@@ -36,7 +37,7 @@ class Admin extends Controller{
     } else {
       $comment_id = $_GET['id'];
       $comment = Comment::whereId($comment_id, 'comments');
-      $delete = $comment->delete($comment);
+      $delete = CommentManager::delete($comment);
       if (!$delete) {
         $message = 'done';
       } else {
@@ -55,7 +56,7 @@ class Admin extends Controller{
       $comment_id = $_GET['id'];
       $comment = Comment::whereId($comment_id, 'comments');
       $comment->setValid(1);
-      $comment->updateStatus($comment);
+      CommentManager::updateStatus($comment);
       $message = 'done';
       echo $message;
     }

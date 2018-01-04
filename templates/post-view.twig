@@ -31,7 +31,6 @@
                   <p>{{ comment.content }}</p>
                   <p>le {{ comment.createdAt }}</p>
                 </div>
-                <p>par <i>{{ comment.getAuthor }}</i></p>
                 <p><a href="/index.php?controller=Blog&action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
                 <hr>
                 {% endfor %}

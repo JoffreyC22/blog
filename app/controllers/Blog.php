@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Post as Post;
 use App\Models\Comment as Comment;
+use App\Managers\CommentManager as CommentManager;
 
 class Blog extends Controller{ /** Controlleur du blog **/
 
@@ -120,7 +121,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
       $comments = $post->comments($post_id);
       if (!empty($comments)) {
         foreach ($comments as $comment) {
-          $comment->delete($comment);
+          CommentManager::delete($comment);
         }
       }
       if ($post->delete($post) === null) {
@@ -148,7 +149,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
           $comment = new Comment();
           $comment->setUserId($author);
           $comment->setContent($content);
-          $comment->save($comment, $post_id);
+          CommentManager::save($comment, $post_id);
           $message = 'done';
         }
         echo $message;
@@ -167,7 +168,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
       if ($comment->getUserId() != $user->getId()) {
         $message = 'wrong_permissions';
       } else {
-        $delete = $comment->delete($comment);
+        $delete = CommentManager::delete($comment);
         if (!$delete) {
           $message = 'done';
         } else {

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use \PDO as PDO;
-
 class Comment extends Modele{
 
   private $id;
@@ -64,31 +62,5 @@ class Comment extends Modele{
 
   public function setValid($valid){
     $this->valid = $valid;
-  }
-
-  public function updateStatus(Comment $comment){
-    $sql = 'UPDATE comments SET valid=? WHERE id=?';
-    Database::executeQuery($sql, array($comment->getValid(), $comment->getId()));
-  }
-
-  public function getAuthor(){
-    $sql = "SELECT username FROM users WHERE id=?";
-    $db = Database::executeQuery($sql, array($this->getUserId()));
-    $data = $db->fetchColumn();
-    return ($data !== false) ? $data : false;
-  }
-
-  public function save(Comment $comment, $post_id){
-
-    $sql = 'INSERT INTO comments (content,created_at,post_id,user_id,valid) VALUES (?, ?, ?, ?, ?)';
-    $date = date('Y-m-d H:i:s');
-    Database::executeQuery($sql, array($comment->getContent(), $date, $post_id, $comment->getUserId(), 0));
-  }
-
-  public function delete(Comment $comment){
-
-    $comment_id = $comment->getId();
-    $sql = 'DELETE FROM comments WHERE id=?';
-    Database::executeQuery($sql, array($comment_id));
   }
 }
