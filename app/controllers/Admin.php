@@ -15,6 +15,7 @@ class Admin extends Controller{
     if (!Auth::isLogged() || (Auth::isLogged() && $user->getRole() !== 'admin')) {
       $alert = new Alert('danger', 'Vous n\'avez pas les droits suffisants pour accéder à cette page.');
       $this->renderMessage($alert);
+      exit();
     }
   }
 
