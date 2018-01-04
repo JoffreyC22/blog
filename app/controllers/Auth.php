@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\User as User;
 use App\Models\Alert as Alert;
 use App\Models\Mail as Mail;
+use App\Managers\UserManager as UserManager;
 
 class Auth extends Controller{
 
@@ -61,7 +62,7 @@ class Auth extends Controller{
         foreach ($_POST as $key => $value) {
           ${$key} = $value;
         }
-        $user = User::exists($email);
+        $user = UserManager::exists($email);
         if ($user) {
           $message = 'already_exists';
         } else {
@@ -72,9 +73,9 @@ class Auth extends Controller{
           $userToRegister->setUsername($username);
           $userToRegister->setPassword(sha1($password));
           $userToRegister->setValid(0);
-          $userToRegister->setToken(User::generateToken(20));
+          $userToRegister->setToken(UserManager::generateToken(20));
           $userToRegister->setRole('user');
-          $userToRegister->save($userToRegister);
+          UserManager::save($userToRegister);
           Mail::send($userToRegister);
           $message = 'done';
         }
@@ -95,7 +96,7 @@ class Auth extends Controller{
             ${$key} = $value;
           }
         }
-        $user = User::getFirst($email, $password);
+        $user = UserManager::getFirst($email, $password);
         if ($user) {
           if (!$user->getValid()) {
             $message = 'not_confirmed';
@@ -134,14 +135,14 @@ class Auth extends Controller{
       $this->renderMessage($alert);
     } else {
       $token = $_GET['token'];
-      if (User::getUserWithToken($token)) {
-        $user = User::getUserWithToken($token);
+      if (UserManager::getUserWithToken($token)) {
+        $user = UserManager::getUserWithToken($token);
         if ($user->getValid()) {
           $alert = new Alert('danger', 'Ce compte n\'existe pas.');
           $this->renderMessage($alert);
         } else {
           $user->setValid(1);
-          $user->updateStatus($user);
+          UserManager::updateStatus($user);
           $alert = new Alert('success', 'Votre compte a bien été activé.');
           $this->renderMessage($alert);
         }
