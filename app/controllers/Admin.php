@@ -11,21 +11,21 @@ class Admin extends Controller{
 
   public function __construct(){
     parent::__construct();
-    $user = Auth::getCurrentUser();
-    if (!Auth::isLogged() || (Auth::isLogged() && $user->getRole() !== 'admin')) {
-      $alert = new Alert('danger', 'Vous n\'avez pas les droits suffisants pour accéder à cette page.');
-      $this->renderMessage($alert);
-      exit();
-    }
   }
 
   public function renderAdmin(){
 
-    $template = $this->twig->loadTemplate('admin.twig');
-    $posts = Post::all('posts');
-    echo $template->render([
-      'posts' => $posts
-    ]);
+    $user = Auth::getCurrentUser();
+    if (!Auth::isLogged() || (Auth::isLogged() && $user->getRole() !== 'admin')) {
+      $alert = new Alert('danger', 'Vous n\'avez pas les droits suffisants pour accéder à cette page.');
+      $this->renderMessage($alert);
+    } else {
+      $template = $this->twig->loadTemplate('admin.twig');
+      $posts = Post::all('posts');
+      echo $template->render([
+        'posts' => $posts
+      ]);
+    }
   }
 
   public function deleteComment(){ /** Supprimer un commentaire **/
