@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \PDO as PDO;
+use App\Managers\PostManager as PostManager;
 
 class Post extends Modele{
 
@@ -66,53 +66,8 @@ class Post extends Modele{
     $this->userId = $userId;
   }
 
-  public function getAuthor(){
-    $sql = "SELECT username FROM users WHERE id=?";
-    $db = Database::executeQuery($sql, array($this->getUserId()));
-    $data = $db->fetchColumn();
-    return ($data !== false) ? $data : false;
-  }
-
-  public function comments($post_id){
-
-    $comments = null;
-    $sql = 'SELECT * FROM comments WHERE post_id=? and valid=1';
-    $db = Database::executeQuery($sql, array($post_id));
-    while ($data = $db->fetch(PDO::FETCH_ASSOC)) {
-      $comments[] = new Comment($data);
-    }
-    return $comments;
-  }
-
-  public function commentsToValidate($post_id){
-    $comments = null;
-    $sql = 'SELECT * FROM comments WHERE post_id=? and valid=0';
-    $db = Database::executeQuery($sql, array($post_id));
-    while ($data = $db->fetch(PDO::FETCH_ASSOC)) {
-      $comments[] = new Comment($data);
-    }
-    return $comments;
-  }
-
-  public function save(Post $post){
-
-    $sql = 'INSERT INTO posts (title,content,created_at,updated_at,user_id) VALUES (?, ?, ?, ?, ?)';
-    $date = date('Y-m-d H:i:s');
-    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date, $date, $post->getUserId()));
-  }
-
-  public function update(Post $post){
-
-    $post_id = $post->getId();
-    $sql = 'UPDATE posts SET title=?, content=?, updated_at=? WHERE id=?';
-    $date = date('Y-m-d H:i:s');
-    Database::executeQuery($sql, array($post->getTitle(), $post->getContent(), $date, $post_id));
-  }
-
-  public function delete(Post $post){
-
-    $post_id = $post->getId();
-    $sql = 'DELETE FROM posts WHERE id=?';
-    Database::executeQuery($sql, array($post_id));
+  public function getAuthor(Post $post){
+    $author = PostManager::getAuthor($post);
+    return $author;
   }
 }

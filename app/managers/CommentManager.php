@@ -8,6 +8,13 @@ use App\Models\Comment as Comment;
 
 class CommentManager {
 
+  public function getAuthor(Comment $comment){
+    $sql = "SELECT username FROM users WHERE id=?";
+    $db = Database::executeQuery($sql, array($comment->getUserId()));
+    $data = $db->fetchColumn();
+    return ($data !== false) ? $data : false;
+  }
+
   public static function updateStatus(Comment $comment){
     $sql = 'UPDATE comments SET valid=? WHERE id=?';
     Database::executeQuery($sql, array($comment->getValid(), $comment->getId()));

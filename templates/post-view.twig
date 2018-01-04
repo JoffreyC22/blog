@@ -11,7 +11,7 @@
                 {{ post.content }}
               </p>
               <div class="flex-container post-details">
-                <p class="post-meta">Posté par {{ post.getAuthor }} le {{ post.createdAt }}
+                <p class="post-meta">Posté par {{ post.getAuthor(post) }} le {{ post.createdAt }}
                   {% if post.createdAt != post.updatedAt %}
                   (édité le {{ post.updatedAt }})
                   {% endif %}
@@ -31,6 +31,7 @@
                   <p>{{ comment.content }}</p>
                   <p>le {{ comment.createdAt }}</p>
                 </div>
+                <p>par <i>{{ comment.getAuthor(comment) }}</i></p>
                 <p><a href="/index.php?controller=Blog&action=deleteComment&id={{ comment.id }}" class="deleteComment">Supprimer</a></p>
                 <hr>
                 {% endfor %}

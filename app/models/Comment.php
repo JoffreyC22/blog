@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Managers\CommentManager as CommentManager;
+
 class Comment extends Modele{
 
   private $id;
@@ -62,5 +64,10 @@ class Comment extends Modele{
 
   public function setValid($valid){
     $this->valid = $valid;
+  }
+
+  public function getAuthor(Comment $comment){
+    $author = CommentManager::getAuthor($comment);
+    return $author;
   }
 }

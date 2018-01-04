@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Post as Post;
 use App\Models\Comment as Comment;
 use App\Managers\CommentManager as CommentManager;
+use App\Managers\PostManager as PostManager;
 
 class Blog extends Controller{ /** Controlleur du blog **/
 
@@ -43,7 +44,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function renderPost(){ /** Un post **/
     $post = Post::whereId($_GET['id'], 'posts');
-    $comments = $post->comments($post->getId());
+    $comments = PostManager::comments($post->getId());
 
     $template = $this->twig->loadTemplate('post-view.twig');
     echo $template->render(array(
@@ -118,7 +119,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
       $message = 'wrong_permissions';
       echo $message;
     } else {
-      $comments = $post->comments($post_id);
+      $comments = PostManager::comments($post_id);
       if (!empty($comments)) {
         foreach ($comments as $comment) {
           CommentManager::delete($comment);
