@@ -6,7 +6,7 @@ use \PDO as PDO;
 use App\Models\Database as Database;
 use App\Models\Comment as Comment;
 
-class CommentManager {
+class CommentManager extends Manager{
 
   public function getAuthor(Comment $comment){
     $sql = "SELECT username FROM users WHERE id=?";

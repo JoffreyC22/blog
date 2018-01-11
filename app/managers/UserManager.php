@@ -6,7 +6,7 @@ use \PDO as PDO;
 use App\Models\Database as Database;
 use App\Models\User as User;
 
-class UserManager {
+class UserManager extends Manager{
 
   public static function getFirst($email, $password){ /** Retourne l'utilisateur en fonction de l'e-mail et du mot de passe **/
     $user = null;

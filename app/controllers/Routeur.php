@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Alert as Alert;
-use App\Models\Modele as Modele;
+use App\Managers\Manager as Manager;
+use App\Managers\CommentManager as CommentManager;
+use App\Managers\PostManager as PostManager;
+use App\Managers\UserManager as UserManager;
 
 class Routeur extends Controller{ /** Controlleur du routeur **/
 
@@ -91,7 +94,7 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
     $class = [
       'withNamespace' => 'App\Models\\'.$arrAction[1],
       'name' => $arrAction[1],
-      'databaseName' => Modele::getDbName($arrAction[1])
+      'databaseName' => Manager::getDbName($arrAction[1])
     ];
 
     return $class;
@@ -102,7 +105,8 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
       $error = new Alert('danger', 'Le '.strtolower($class['name']).' doit être numérique.');
       $this->renderMessage($error);
     } else {
-      $entity = $class['withNamespace']::whereId($id, $class['databaseName']);
+      $manager = 'App\Managers\\'.$class['name'].'Manager';
+      $entity = $manager::whereId($id, $class['databaseName']);
       if (!$entity) {
         $error = new Alert('danger', 'Ce '.strtolower($class['name']).' n\'existe pas.');
         $this->renderMessage($error);

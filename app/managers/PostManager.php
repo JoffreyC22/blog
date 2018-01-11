@@ -7,7 +7,7 @@ use App\Models\Database as Database;
 use App\Models\Comment as Comment;
 use App\Models\Post as Post;
 
-class PostManager {
+class PostManager extends Manager{
 
   public static function getAuthor(Post $post){
     $sql = "SELECT username FROM users WHERE id=?";

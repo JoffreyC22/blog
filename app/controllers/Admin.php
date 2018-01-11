@@ -7,6 +7,7 @@ use App\Models\Alert as Alert;
 use App\Models\Post as Post;
 use App\Models\Comment as Comment;
 use App\Managers\CommentManager as CommentManager;
+use App\Managers\PostManager as PostManager;
 
 class Admin extends Controller{
 
@@ -22,7 +23,7 @@ class Admin extends Controller{
       $this->renderMessage($alert);
     } else {
       $template = $this->twig->loadTemplate('admin.twig');
-      $posts = Post::all('posts');
+      $posts = PostManager::all('posts');
       echo $template->render([
         'posts' => $posts
       ]);
@@ -36,7 +37,7 @@ class Admin extends Controller{
       echo $message;
     } else {
       $comment_id = $_GET['id'];
-      $comment = Comment::whereId($comment_id, 'comments');
+      $comment = CommentManager::whereId($comment_id, 'comments');
       $delete = CommentManager::delete($comment);
       if (!$delete) {
         $message = 'done';
@@ -54,7 +55,7 @@ class Admin extends Controller{
       echo $message;
     } else {
       $comment_id = $_GET['id'];
-      $comment = Comment::whereId($comment_id, 'comments');
+      $comment = CommentManager::whereId($comment_id, 'comments');
       $comment->setValid(1);
       CommentManager::updateStatus($comment);
       $message = 'done';

@@ -25,7 +25,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderHome() { /** Home blog **/
-    $posts = Post::all('posts');
+    $posts = PostManager::all('posts');
 
     $template = $this->twig->loadTemplate('index.twig');
     echo $template->render(array(
@@ -34,7 +34,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderPosts() { /** Tous les posts **/
-    $posts = Post::all('posts');
+    $posts = PostManager::all('posts');
 
     $template = $this->twig->loadTemplate('posts.twig');
     echo $template->render(array(
@@ -43,7 +43,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function renderPost(){ /** Un post **/
-    $post = Post::whereId($_GET['id'], 'posts');
+    $post = PostManager::whereId($_GET['id'], 'posts');
     $comments = PostManager::comments($post->getId());
 
     $template = $this->twig->loadTemplate('post-view.twig');
@@ -79,7 +79,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function editPostView(){ /** Vue pour éditer un post **/
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id, 'posts');
+    $post = PostManager::whereId($post_id, 'posts');
 
     $template = $this->twig->loadTemplate('post-create-edit.twig');
     echo $template->render([
@@ -90,7 +90,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   public function editPost(){ /** Action éditer un post **/
     $loggedUser = Auth::getCurrentUser();
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id, 'posts');
+    $post = PostManager::whereId($post_id, 'posts');
     if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
       $message = 'wrong_permissions';
       echo $message;
@@ -114,7 +114,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   public function deletePost(){ /** Supprimer un post **/
     $loggedUser = Auth::getCurrentUser();
     $post_id = $_GET['id'];
-    $post = Post::whereId($post_id, 'posts');
+    $post = PostManager::whereId($post_id, 'posts');
     if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
       $message = 'wrong_permissions';
       echo $message;
@@ -165,7 +165,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
       echo $message;
     } else {
       $comment_id = $_GET['id'];
-      $comment = Comment::whereId($comment_id, 'comments');
+      $comment = CommentManager::whereId($comment_id, 'comments');
       if ($comment->getUserId() != $user->getId()) {
         $message = 'wrong_permissions';
       } else {
