@@ -1,6 +1,6 @@
 <?php
 
-use App\Controllers\Routeur as Routeur;
+use App\Routeur as Routeur;
 
 require_once('./boot.php');
 

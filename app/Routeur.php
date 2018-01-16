@@ -1,24 +1,37 @@
 <?php
 
-namespace App\Controllers;
+namespace App;
 
 use App\Models\Alert as Alert;
 use App\Managers\Manager as Manager;
 use App\Managers\CommentManager as CommentManager;
 use App\Managers\PostManager as PostManager;
 use App\Managers\UserManager as UserManager;
+use App\Controllers\Blog as Blog;
+use App\Controllers\Auth as Auth;
+use App\Controllers\Admin as Admin;
+use App\Controllers\Contact as Contact;
+use App\Controllers\Controller as Controller;
 
-class Routeur extends Controller{ /** Controlleur du routeur **/
+class Routeur {
+
+  public function __construct(){
+    $loader = new \Twig_Loader_Filesystem('templates');
+    $this->twig = new \Twig_Environment($loader, array(
+     'cache' => false,
+     'debug' => true
+    ));
+    $this->twig->addGlobal('session', $_SESSION);
+  }
 
   public function init(){
-
     if (!empty($_GET['controller']) && !empty($_GET['action'])) {
       $routableControllers = $this->getRoutableControllers();
       if (!in_array($_GET['controller'], $routableControllers)) { /** Erreur si le controller demandé n'existe pas **/
         $error = new Alert('danger', 'Cette page n\'existe pas.');
         $this->renderMessage($error);
       } else {
-        $controllerName = __NAMESPACE__ .'\\'.$_GET['controller'];
+        $controllerName = 'App\Controllers\\'.$_GET['controller'];
         $controller = new $controllerName();
         $action = $_GET['action'];
         $actions = $this->getActionsPossibles($controller);
@@ -114,6 +127,16 @@ class Routeur extends Controller{ /** Controlleur du routeur **/
         return true;
       }
     }
+  }
+
+  private function renderMessage(Alert $alert){ /** Vue message **/
+    $template = $this->twig->loadTemplate('alert.twig');
+    echo $template->render([
+      'alert' => array(
+        'type' => $alert->getType(),
+        'message' => $alert->getMessage()
+      )
+    ]);
   }
 
 }
