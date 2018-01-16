@@ -2,3 +2,4 @@
 /vendor/
 /public/css/
 /public/js/clean-blog.min.js
+/config.php
