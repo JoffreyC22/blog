@@ -4,7 +4,7 @@ namespace App;
 
 use App\Models\Alert as Alert;
 
-class Object {
+class Authorization {
 
   public function __construct(){
     $loader = new \Twig_Loader_Filesystem('templates');
