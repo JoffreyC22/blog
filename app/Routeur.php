@@ -8,10 +8,11 @@ use App\Managers\CommentManager as CommentManager;
 use App\Managers\PostManager as PostManager;
 use App\Managers\UserManager as UserManager;
 use App\Controllers\Blog as Blog;
-use App\Controllers\Auth as Auth;
+use App\Controllers\Authentication as Authentication;
 use App\Controllers\Admin as Admin;
 use App\Controllers\Contact as Contact;
 use App\Controllers\Controller as Controller;
+use App\Authorization as Authorization;
 
 class Routeur {
 
@@ -35,7 +36,7 @@ class Routeur {
         $controller = new $controllerName();
         $action = $_GET['action'];
         $actions = $this->getActionsPossibles($controller);
-        if ($_GET['controller'] == 'Auth' && Auth::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
+        if ($_GET['controller'] == 'Authentication' && Authorization::isLogged() && $action != 'logout') { /** Interdit les pages auth si l'utilisateur est déjà connecté **/
           $error = new Alert('danger', 'Vous êtes déjà connecté.');
           $this->renderMessage($error);
         }
@@ -45,7 +46,7 @@ class Routeur {
         } else {
           if ($_GET['controller'] == 'Blog') {
             $registeredUsersActions = Blog::getRegisteredUsersActions();
-            if (in_array($action, $registeredUsersActions) && !Auth::isLogged()) {
+            if (in_array($action, $registeredUsersActions) && !Authorization::isLogged()) {
               $error = new Alert('danger', 'Vous devez être connecté pour effectuer cette action');
               $this->renderMessage($error);
             } elseif ($this->getActionsToVerify($controller) && !empty($_GET['id'])) { /** Si il y a un id dans la requête **/
@@ -86,7 +87,7 @@ class Routeur {
   }
 
   private function getRoutableControllers(){ /** Declarer chaque controller ici pour pouvoir utiliser ses méthodes en tant que route **/
-    $routableControllers = ['Blog', 'Auth', 'Admin', 'Contact'];
+    $routableControllers = ['Blog', 'Authentication', 'Admin', 'Contact'];
     return $routableControllers;
   }
 

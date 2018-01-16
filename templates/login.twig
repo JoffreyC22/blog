@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-lg-6 col-md-8 mx-auto">
       <h1 class="uppercase text-center">Connexion</h1>
-      <form action="index.php?controller=Auth&action=login" method="post">
+      <form action="index.php?controller=Authentication&action=login" method="post">
       {{ block('alert') }}
         <div class="form-group">
           <label for="email">E-mail :</label>
@@ -25,7 +25,7 @@
   </div>
   <div class="row register-link">
     <div class="col-md-12 text-center">
-      <a href="index.php?controller=Auth&action=renderRegister">Pas de compte ? Enregistrez-vous</a>
+      <a href="index.php?controller=Authentication&action=renderRegister">Pas de compte ? Enregistrez-vous</a>
     </div>
   </div>
 </div>

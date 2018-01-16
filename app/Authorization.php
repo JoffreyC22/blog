@@ -2,26 +2,23 @@
 
 namespace App;
 
-use App\Models\Alert as Alert;
+use App\Models\User as User;
 
 class Authorization {
 
-  public function __construct(){
-    $loader = new \Twig_Loader_Filesystem('templates');
-    $this->twig = new \Twig_Environment($loader, array(
-     'cache' => false,
-     'debug' => true
-    ));
-    $this->twig->addGlobal('session', $_SESSION);
+  public static function isLogged(){
+    if (isset($_SESSION['user'])) {
+      return true;
+    }
+    return false;
   }
 
-  public function renderMessage(Alert $alert){ /** Vue message **/
-    $template = $this->twig->loadTemplate('alert.twig');
-    echo $template->render([
-      'alert' => array(
-        'type' => $alert->getType(),
-        'message' => $alert->getMessage()
-      )
-    ]);
+  public static function getCurrentUser(){
+    $data = null;
+    if (isset($_SESSION['user'])) {
+      $data = $_SESSION['user'];
+      $user = new User($data);
+    }
+    return ($data !== null) ? $user : '';
   }
 }

@@ -6,6 +6,7 @@ use App\Models\Post as Post;
 use App\Models\Comment as Comment;
 use App\Managers\CommentManager as CommentManager;
 use App\Managers\PostManager as PostManager;
+use App\Authorization as Authorization;
 
 class Blog extends Controller{ /** Controlleur du blog **/
 
@@ -69,7 +70,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
         $post = new Post();
         $post->setTitle($_POST['title']);
         $post->setContent($_POST['content']);
-        $post->setUserId(Auth::getCurrentUser()->getId());
+        $post->setUserId(Authorization::getCurrentUser()->getId());
         PostManager::save($post);
         $message = 'done';
       }
@@ -88,7 +89,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function editPost(){ /** Action éditer un post **/
-    $loggedUser = Auth::getCurrentUser();
+    $loggedUser = Authorization::getCurrentUser();
     $post_id = $_GET['id'];
     $post = PostManager::whereId($post_id, 'posts');
     if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
@@ -112,7 +113,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function deletePost(){ /** Supprimer un post **/
-    $loggedUser = Auth::getCurrentUser();
+    $loggedUser = Authorization::getCurrentUser();
     $post_id = $_GET['id'];
     $post = PostManager::whereId($post_id, 'posts');
     if ($post->getUserId() != $loggedUser->getId() && $loggedUser->getRole() != 'admin') {
@@ -136,7 +137,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
 
   public function commentPost(){ /** Commenter un post **/
     $post_id = $_GET['id'];
-    $user = Auth::getCurrentUser();
+    $user = Authorization::getCurrentUser();
     if (!$user) {
       $message = 'wrong_permissions';
       echo $message;
@@ -159,7 +160,7 @@ class Blog extends Controller{ /** Controlleur du blog **/
   }
 
   public function deleteComment(){ /** Supprimer un commentaire **/
-    $user = Auth::getCurrentUser();
+    $user = Authorization::getCurrentUser();
     if (!$user) {
       $message = 'wrong_permissions';
       echo $message;

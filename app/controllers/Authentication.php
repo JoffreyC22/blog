@@ -7,26 +7,10 @@ use App\Models\Alert as Alert;
 use App\Models\Mail as Mail;
 use App\Managers\UserManager as UserManager;
 
-class Auth extends Controller{
+class Authentication extends Controller{
 
   public function __construct(){
     parent::__construct();
-  }
-
-  public static function isLogged(){
-    if (isset($_SESSION['user'])) {
-      return true;
-    }
-    return false;
-  }
-
-  public static function getCurrentUser(){
-    $data = null;
-    if (isset($_SESSION['user'])) {
-      $data = $_SESSION['user'];
-      $user = new User($data);
-    }
-    return ($data !== null) ? $user : '';
   }
 
   public static function checkPasswords(){

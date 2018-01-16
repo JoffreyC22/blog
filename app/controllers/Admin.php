@@ -8,6 +8,7 @@ use App\Models\Post as Post;
 use App\Models\Comment as Comment;
 use App\Managers\CommentManager as CommentManager;
 use App\Managers\PostManager as PostManager;
+use App\Authorization as Authorization;
 
 class Admin extends Controller{
 
@@ -17,8 +18,8 @@ class Admin extends Controller{
 
   public function renderAdmin(){
 
-    $user = Auth::getCurrentUser();
-    if (!Auth::isLogged() || (Auth::isLogged() && $user->getRole() !== 'admin')) {
+    $user = Authorization::getCurrentUser();
+    if (!Authorization::isLogged() || (Authorization::isLogged() && $user->getRole() !== 'admin')) {
       $alert = new Alert('danger', 'Vous n\'avez pas les droits suffisants pour accéder à cette page.');
       $this->renderMessage($alert);
     } else {
@@ -31,7 +32,7 @@ class Admin extends Controller{
   }
 
   public function deleteComment(){ /** Supprimer un commentaire **/
-    $user = Auth::getCurrentUser();
+    $user = Authorization::getCurrentUser();
     if (!$user || $user->getRole() != 'admin') {
       $message = 'wrong_permissions';
       echo $message;
@@ -49,7 +50,7 @@ class Admin extends Controller{
   }
 
   public function validateComment(){ /** Valider un commentaire **/
-    $user = Auth::getCurrentUser();
+    $user = Authorization::getCurrentUser();
     if (!$user || $user->getRole() != 'admin') {
       $message = 'wrong_permissions';
       echo $message;
