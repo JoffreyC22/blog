@@ -13,16 +13,7 @@ use App\Controllers\Admin as Admin;
 use App\Controllers\Contact as Contact;
 use App\Controllers\Controller as Controller;
 
-class Routeur {
-
-  public function __construct(){
-    $loader = new \Twig_Loader_Filesystem('templates');
-    $this->twig = new \Twig_Environment($loader, array(
-     'cache' => false,
-     'debug' => true
-    ));
-    $this->twig->addGlobal('session', $_SESSION);
-  }
+class Routeur extends Object{
 
   public function init(){
     if (!empty($_GET['controller']) && !empty($_GET['action'])) {
@@ -127,16 +118,6 @@ class Routeur {
         return true;
       }
     }
-  }
-
-  private function renderMessage(Alert $alert){ /** Vue message **/
-    $template = $this->twig->loadTemplate('alert.twig');
-    echo $template->render([
-      'alert' => array(
-        'type' => $alert->getType(),
-        'message' => $alert->getMessage()
-      )
-    ]);
   }
 
 }
