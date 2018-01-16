@@ -70,4 +70,9 @@ class Post extends Modele{
     $author = PostManager::getAuthor($post);
     return $author;
   }
+
+  public function commentsToValidate(){
+    $comments = PostManager::commentsToValidate($this->id);
+    return $comments;
+  }
 }
