@@ -142,6 +142,27 @@
     });
   });
 
+  $('.validateComment').click(function(e){
+    e.preventDefault();
+    console.log('test');
+    var custom_url = $(this).attr('href');
+    $.ajax({
+      url: custom_url,
+      success: function(data){
+        if (data == 'wrong_permissions') {
+          popMessage('.alert-danger', 'Le commentaire n\'a pas pu être validé.');
+        } else if (data == 'done') {
+          popMessage('.alert-success', 'Commentaire validé avec succès.');
+          setTimeout("window.location.reload()", 2000);
+        } else {
+          popMessage('.alert-danger', 'Le commentaire n\'a pas pu être validé.');
+        }
+      },
+      error: function(xhr){
+      }
+    });
+  });
+
   $('#login').click(function(e){
     e.preventDefault();
     var form = $(this).closest('form');
